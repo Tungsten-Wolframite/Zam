@@ -75,6 +75,8 @@ MENU_TYPE = (
     ('GLUTEN FREE','GLUTEN FREE'),
     ('NON-VEG','NON-VEG'),
 )
+##
+##this is moderl file
 
 class RestaurantAdmin(User):
     restaurant_admin_id= models.AutoField(primary_key=True, editable=False)        
