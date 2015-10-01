@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DealMonk | Dashboard{{request.session.user_login}}</title>
+
+    <link href="{%static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{%static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+
+    <!-- Morris -->
+    <link href="{%static 'assets/css/plugins/morris/morris-0.4.3.min.css'%}" rel="stylesheet">
+
+    <!-- Gritter -->
+    <link href="{%static 'assets/js/plugins/gritter/jquery.gritter.css'%}" rel="stylesheet">
+
+    <link href="{%static 'assets/css/animate.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/css/style.css'%}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.css'%}"> 
+
+<link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 35%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>
+
+
+</head>
+
+<body>
+    <div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> 
+                    
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="background: rgba(2, 1, 1, 0) none repeat scroll 0% 0%;">
+                    			<span>
+                            	<img alt="image" id='user_img' class="img-circle" src="{{user_img}}" width=48 height=48/>
+                            </span>
+                     </a>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <label class="font-bold" style="text-transform:capitalize;">{{request.session.full_name}}</label>
+                             </span></span> </a>
+                    </div>
+                    <div class="logo-element">
+                        DM+
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+                </li>
+                <li>
+                    <a href="/load-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+                </li>
+                <li>
+                    <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+                </li>
+                
+                <li>
+                    <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+                </li>
+                <li>
+                    <a href="/restaurant_menu/"><i class="fa fa-book"></i> <span class="nav-label">Menu</span></a>
+                </li>
+               <li>
+                    <a href="/open-change-password/"><i class="fa fa-cogs"></i> <span class="nav-label">Account Settings</span></a>
+                </li> 
+                <!--  <li>
+                    <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Contact US</span></a>
+                </li> -->
+                <!-- <li>
+                    <a href="#"><i class="fa fa-usd"></i> <span class="nav-label">Payment</span> </a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-envelope-o"></i> <span class="nav-label">Email</span></a>
+                </li> 
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">Promote @DM</span></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Redeem</a>
+                </li> -->
+
+        </div>
+    </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message" style="text-transform:capitalize;">Welcome {{request.session.full_name}}</span>
+                </li>
+                <li>
+                    <a href="/sign-out-admin/">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+                                
+            </ul>
+
+        </nav>
+        </div>
+            <div class="wrapper wrapper-content">
+       
+       <!--  -->
+       <div class="row">
+                    <div class="col-lg-6">
+                        <div class="ibox float-e-margins">
+                            
+                            <div class="ibox-title">
+                                        <h5>Today's Upcoming Guests</h5>
+                                    </div>
+                            
+                            <div class="ibox-content">
+
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div style="position: relative; overflow: hidden; width: auto; height: 100%;" class="slimScrollDiv"><div style="overflow: hidden; width: auto; height: 100%;" class="full-height-scroll">
+ 
+ <div class="table-responsive" style="height:220px">
+  <table id="guestTable" class="table table-striped table-bordered">
+<thead>
+<tr>
+						  <th>Guest Name</th>
+		    <th>Covers</th>
+                    <th>Offer Name</th>
+                    <th>Timings</th>
+</tr>
+</thead>
+<tbody>
+{%for rest_bk in rest_bk_list%}
+<tr>
+<td>{{rest_bk.consumer_id.consumer_first_name}}&nbsp;{{rest_bk.consumer_id.consumer_last_name}}</td>
+<td>{{rest_bk.restaurant_booking_covers}}</td>
+<td>{{rest_bk.restaurant_offerMap_id.restaurant_offer_id.restaurant_offer_detail}}</td>
+<td>{{rest_bk.restaurant_booking_time_from}} - {{rest_bk.restaurant_booking_time_to}}</td>
+</tr>
+{%endfor%}
+</tbody>
+  </table>
+ </div>
+                                </div><div style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 600px;" class="slimScrollBar"></div><div style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: none repeat scroll 0% 0% rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;" class="slimScrollRail"></div></div>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div style="position: relative; overflow: hidden; width: auto; height: 100%;" class="slimScrollDiv"><div style="overflow: hidden; width: auto; height: 100%;" class="full-height-scroll">
+
+                                    </div>
+   <div style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;" class="slimScrollBar"></div>
+   <div style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: none repeat scroll 0% 0% rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;" class="slimScrollRail"></div></div>
+  </div>
+                            </div>
+  <tr>
+<a class="btn btn-primary btn-block m-t" href="/load-upcoming-guests/"><i class="fa fa-arrow-down"></i> Details</a>
+
+</tr>      
+                            </div>
+ 
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Today's Promotions</h5>
+<!--                                         <a href="promotions.html" type="submit" class="btn btn-success btn-sm" style="margin-left: 80px;">View More</a> -->
+                                        <div class="ibox-tools">
+                                        </div>
+                                    </div>
+<div class="ibox-content" style="padding-bottom: 19px;">
+     <div class="table-responsive" style="height:220px">
+  <table id="promotionTable" class="table table-striped table-bordered">
+<thead>
+<tr>
+                    <th>Offer Name</th>
+                    <th>Duration</th>
+</tr>
+</thead>
+<tbody>
+{% for offer in offer_list %}
+<tr>
+<td>{{offer.restaurant_offer_id.restaurant_offer_detail}}</td>
+<td>{{offer.offer_map_time_from}} - {{offer.offer_map_time_to}}</td>
+</tr>
+{%endfor%}
+</tbody>
+  </table>
+ </div>
+<a class="btn btn-primary btn-block m-t" href="/promotions/"><i class="fa fa-arrow-down"></i> Details</a>
+</div>
+                                </div>
+                            </div>
+<!--                              <div class="col-lg-6">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>TBD</h5>
+                                        <div class="ibox-tools">
+                                            
+                                            <a class="close-link">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" style="height:310px">
+                                    </div>
+                                </div>
+                            </div>  -->
+                        </div>
+                        
+
+                    </div>
+
+
+                </div>
+       <!--  -->
+        
+        <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Dashboard</h5>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-xs btn-white active">Today</button>
+                                        <button type="button" class="btn btn-xs btn-white">Monthly</button>
+                                        <button type="button" class="btn btn-xs btn-white">Annual</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                <div class="col-lg-9">
+                                    <div class="flot-chart">
+                                        <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    </div>
+                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ------------------- -->
+                    <div class="row">
+        <div class="col-lg-12">
+        <div class="ibox-title">
+                                <h5>Summary</h5>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-xs btn-white active">Today</button>
+                                        <button type="button" class="btn btn-xs btn-white">Monthly</button>
+                                        <button type="button" class="btn btn-xs btn-white">Annual</button>
+                                    </div>
+                                </div>
+                            </div></div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                        
+                            <div class="ibox-title">
+                                <!-- <span class="label label-success pull-right">Monthly</span> -->
+                                <h5>Covers Sent</h5>
+                            </div>
+                            <div class="ibox-content" style="height:88px">
+                                <!--<h1 class="no-margins">40 886,200</h1>
+                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                                <small>Total covers sent</small>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <!-- <span class="label label-info pull-right">Annual</span> -->
+                                <h5>Views</h5>
+                            </div>
+                            <div class="ibox-content" style="height:88px">
+                               <!-- <h1 class="no-margins">275,800</h1>
+                                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                                <small>Total views</small> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <!-- <span class="label label-primary pull-right">Today</span> -->
+                                <h5>Ratings & Reviews</h5>
+                            </div>
+                            <div class="ibox-content" style="height:88px">
+                              <!--  <h1 class="no-margins">106,120</h1>
+                                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
+                                <small>Total ratings & reviews</small> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <!-- <span class="label label-danger pull-right">Low value</span> -->
+                                <h5>TBD</h5>
+                            </div>
+                            <div class="ibox-content" style="height:88px">
+                              <!--  <h1 class="no-margins">80,600</h1>
+                                <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
+                                <small>TBD</small> -->
+                            </div>
+                        </div>
+            </div>
+        </div>
+                    
+                      <!-- ------------------- -->
+                
+                </div>
+        <div class="footer">
+            
+            <div>
+                <strong>Copyright</strong> DealMonk &copy; 2015-2016
+            </div>
+        </div>
+        </div>
+        <div id="right-sidebar">
+            <div class="sidebar-container">
+
+                <ul class="nav nav-tabs navs-3">
+
+                    <!-- <li class="active"><a data-toggle="tab" href="#tab-1">
+                        Notes
+                    </a></li> -->
+                    <!-- <li><a data-toggle="tab" href="#tab-2">
+                        Projects
+                    </a></li> -->
+                   
+                </ul>
+
+                <div class="tab-content">
+
+
+                    
+
+                    <div id="tab-2" class="tab-pane">
+
+                        <div class="sidebar-title">
+                            <!-- <h3> <i class="fa fa-cube"></i> Latest projects</h3>
+                            <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small> -->
+                        </div>
+
+                        <ul class="sidebar-list">
+                            <li>
+                                <a href="#">
+                                    <div class="small pull-right m-t-xs">9 hours ago</div>
+                                    <h4>Business valuation</h4>
+                                    It is a long established fact that a reader will be distracted.
+
+                                    <div class="small">Completion with: 22%</div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
+                                    </div>
+                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="small pull-right m-t-xs">9 hours ago</div>
+                                    <h4>Contract with Company </h4>
+                                    Many desktop publishing packages and web page editors.
+
+                                    <div class="small">Completion with: 48%</div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 48%;" class="progress-bar"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="small pull-right m-t-xs">9 hours ago</div>
+                                    <h4>Meeting</h4>
+                                    By the readable content of a page when looking at its layout.
+
+                                    <div class="small">Completion with: 14%</div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-primary pull-right">NEW</span>
+                                    <h4>The generated</h4>
+                                    <!--<div class="small pull-right m-t-xs">9 hours ago</div>-->
+                                    There are many variations of passages of Lorem Ipsum available.
+                                    <div class="small">Completion with: 22%</div>
+                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="small pull-right m-t-xs">9 hours ago</div>
+                                    <h4>Business valuation</h4>
+                                    It is a long established fact that a reader will be distracted.
+
+                                    <div class="small">Completion with: 22%</div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
+                                    </div>
+                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="small pull-right m-t-xs">9 hours ago</div>
+                                    <h4>Contract with Company </h4>
+                                    Many desktop publishing packages and web page editors.
+
+                                    <div class="small">Completion with: 48%</div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 48%;" class="progress-bar"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="small pull-right m-t-xs">9 hours ago</div>
+                                    <h4>Meeting</h4>
+                                    By the readable content of a page when looking at its layout.
+
+                                    <div class="small">Completion with: 14%</div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-primary pull-right">NEW</span>
+                                    <h4>The generated</h4>
+                                    <!--<div class="small pull-right m-t-xs">9 hours ago</div>-->
+                                    There are many variations of passages of Lorem Ipsum available.
+                                    <div class="small">Completion with: 22%</div>
+                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div id="tab-3" class="tab-pane">
+
+                        <div class="setings-item">
+                    <span>
+                        Show notifications
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example">
+                                    <label class="onoffswitch-label" for="example">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        Disable Chat
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="collapsemenu" checked class="onoffswitch-checkbox" id="example2">
+                                    <label class="onoffswitch-label" for="example2">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        Enable history
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example3">
+                                    <label class="onoffswitch-label" for="example3">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        Show charts
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example4">
+                                    <label class="onoffswitch-label" for="example4">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        Offline users
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" checked name="collapsemenu" class="onoffswitch-checkbox" id="example5">
+                                    <label class="onoffswitch-label" for="example5">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        Global search
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" checked name="collapsemenu" class="onoffswitch-checkbox" id="example6">
+                                    <label class="onoffswitch-label" for="example6">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        Update everyday
+                    </span>
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example7">
+                                    <label class="onoffswitch-label" for="example7">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+<div class="ibox-content">     
+			                
+          	<div class="modal fade" id="upload_image" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">DealMonk</h4>
+        								</div>
+        								   
+        							<!-- 	<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data" action="/upload-admin-image/">  --> 	
+        									<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Select Image.</p>
+							                       <!--  <input name="image_load" type="file" class="form-control" id="exercisevideo"  accept=accept=".png, .jpg, .jpeg" /> -->
+															 <input type="file" id='admin_image' name="pic" accept=".png, .jpg, .jpeg">	
+															 <input type="hidden" id="login_user_name" name="user_name" value="{{request.session.login_user}}"></input>	
+															 				                    
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_upload"  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_ok_upload" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  			 
+</div>
+
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{%static 'assets/js/jquery-2.1.1.js'%}"></script>
+    <script src="{%static 'assets/js/bootstrap.min.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/metisMenu/jquery.metisMenu.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+
+    <!-- Flot -->
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.tooltip.min.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.spline.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.resize.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.pie.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.symbol.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.time.js'%}"></script>
+
+    <!-- Peity -->
+    <script src="{%static 'assets/js/plugins/peity/jquery.peity.min.js'%}"></script>
+    <script src="{%static 'assets/js/demo/peity-demo.js'%}"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{%static 'assets/js/inspinia.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/pace/pace.min.js'%}"></script>
+
+    <!-- jQuery UI -->
+    <script src="{%static 'assets/js/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+
+    <!-- Jvectormap -->
+    <script src="{%static 'assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'%}"></script>
+
+    <!-- EayPIE -->
+    <script src="{%static 'assets/js/plugins/easypiechart/jquery.easypiechart.js'%}"></script>
+
+    <!-- Sparkline -->
+    <script src="{%static 'assets/js/plugins/sparkline/jquery.sparkline.min.js'%}"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="{%static 'assets/js/demo/sparkline-demo.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/dataTables/jquery.dataTables.js'%}"></script>
+    
+<script type="text/javascript" >
+$('#user_img').click(function(){
+	$('#upload_image').modal('show');
+});
+
+$('#btn_ok_upload').click(function(){
+
+  var input = document.getElementById("admin_image");  	  
+    file = input.files[0];
+	 var formData= new FormData();  
+  	 if(file != undefined){ 	 
+    	if(!!file.type.match(/image.*/)){
+      	formData.append("image", file);    
+      	formData.append("user_name",$('#login_user_name').val());      	
+      	$.ajax({
+    			type : 'POST',
+    			url : '/upload-admin-image/',
+    			data : formData,
+    			cache: false,
+    			processData: false,
+    			contentType: false,
+    			success: function(response) {
+    				console.log(response);
+        			if(response.success=='true'){
+        				$('#user_img').attr('src',response.image);
+        			}
+        			if(response.success=='error'){
+        				alert('error!')
+        			}
+    			},
+    			error: function(response){
+            console.log(response);
+           			alert("ajax Error!");
+           }, 
+		});
+    }else{
+      alert('Not a valid image!');
+    }
+  }else{
+    //alert('Input something!');
+  } 
+});
+</script>
+</body>
+</html>

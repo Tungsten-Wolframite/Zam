@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+ <title>DealMonk | Add Restaurant Details</title>
+
+ <link href="/static/assets/css/bootstrap.min.css" rel="stylesheet">
+ <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+ 
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <link href="/static/assets/css/jquery.timepicker.css" rel="stylesheet">
+ <script src="/static/assets/js/jquery.timepicker.js"></script>
+
+
+<link href="/static/assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+ <!-- Toastr style -->
+ <link href="/static/assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+ <link rel="stylesheet" href="{%static 'assets/css/bootstrap-multiselect.css'%}" type="text/css"/>
+
+ <link href="/static/assets/css/animate.css" rel="stylesheet">
+ <link href="/static/assets/css/style.css" rel="stylesheet">
+ <link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#example1').datepicker({
+      format: "dd/mm/yyyy"
+    });
+
+   $('.dp').on('change', function(){
+       $('.datepicker').hide();
+   });
+   
+   $(function() {
+                    $('#optime').timepicker();
+                
+
+});
+});
+
+</script>
+
+<style type="text/css">
+
+.time{
+	width: 60%;
+}
+
+ </li> -->
+.timings{
+width: 85%;
+}
+
+.timings-rb{
+width: 62%;
+}
+
+</style>
+
+<style>
+    .multiselect {
+        width: 200px;
+    }
+    .selectBox {
+        position: relative;
+    }
+    .selectBox select {
+        width: 100%;
+        #font-weight: bold;
+    }
+    .overSelect {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+    }
+    #checkboxes {
+        display: none;
+        border: 2px #dadada solid;
+    }
+    #checkboxes label {
+        display: block;
+    }
+    #checkboxes label:hover {
+        background-color:#f90;
+    }
+</style>
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 35%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>
+
+<style type="text/css"></style></head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="-webkit-transform: translate3d(100%, 0px, 0px); transform: translate3d(100%, 0px, 0px);">
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+
+ <div id="wrapper">
+
+ <nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+<ul class="nav" id="side-menu">
+ <li class="nav-header">
+     <div class="dropdown profile-element"> 
+     
+  							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    			<span>
+                            	<img alt="image" id='user_img' class="img-circle" src="{{user_img}}" width=48 height=48/>
+                            </span>
+                     </a>
+
+         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+             <span class="clear"> <span class="block m-t-xs"> <label class="font-bold" style="text-transform:capitalize;">{{request.session.full_name}}</label>
+              </span></span> </a>
+  </div>
+     <div class="logo-element">
+         DM+
+     </div>
+ </li>
+ <li>
+     <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+ </li>
+ <li>
+     <a href="/load-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+ </li>
+ <li>
+     <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+ </li>
+ 
+ <li class="active">
+     <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+ </li>
+ <li>
+                    <a href="/restaurant_menu/"><i class="fa fa-book"></i> <span class="nav-label">Menu</span></a>
+                </li>
+ <li>
+  <a href="/open-change-password/"><i class="fa fa-cogs"></i> <span class="nav-label">Account Settings</span></a>
+ </li>
+ <!-- <li>
+  <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Contact US</span></a>
+ <!-- <li>
+     <a href="#"><i class="fa fa-usd"></i> <span class="nav-label">Payment</span> </a>
+ </li>
+ <li>
+     <a href="#"><i class="fa fa-envelope-o"></i> <span class="nav-label">Email</span></a>
+ </li> 
+ <li>
+     <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">Promote @DM</span></a>
+ </li>
+ <li>
+     <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Redeem</a>
+ </li> -->
+</ul>
+  </div>
+ </nav>
+
+  <div id="page-wrapper" class="gray-bg" style="min-height: 867px;">
+  <div class="row border-bottom">
+  <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+  <div class="navbar-header">
+<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+<form role="search" class="navbar-form-custom" action="search_results.html">
+</form>
+  </div>
+<ul class="nav navbar-top-links navbar-right">
+ <li>
+     <span class="m-r-sm text-muted welcome-message" style="text-transform:capitalize;">Welcome {{ request.session.full_name }}</span>
+ </li>
+ <li>
+     <a href="/sign-out-admin/">
+         <i class="fa fa-sign-out"></i> Log out
+     </a>
+ </li>
+</ul>
+  </nav>
+  </div>
+ <!--  onSubmit="return validate();" -->
+<form name="restaurantform" onsubmit="return validate_cuisine()" action="/add-restaurant/" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+<h4 style="font-weight:100;color:red;">{{error_msg}}</h4>
+ <div class="col-lg-8"> 						 
+                   <h2>Add Restaurant Detail</h2>                                      
+                </div>
+<div class="col-lg-4" style="padding-top:20px;text-align:right;">
+  
+  <button type="submit" class="btn btn-primary btn-sm" style="margin-left:95px;">Save</button>
+	<a href="/dashboard/" class="btn btn-primary btn-sm">Cancel</a>
+ 
+ </div>
+
+</div>
+  <div class="wrapper wrapper-content  animated fadeInRight">
+  
+<div class="row">
+ <div class="col-sm-12">
+     <div class="ibox">
+     
+   <div class="ibox-title">
+                        <h5>Restaurant Details</h5><br><br>
+                        <label class="control-label">* marked fields are mandatory</label>
+                    </div>
+     
+          <div class="ibox-content" style="padding-bottom: 10px;">
+             <div class="row">
+              <!-- pattern="^[a-zA-Z0-9\s]+$" -->
+                                 <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">*Restaurant Name</label>
+                                   <input id="rest_name" required="required" name="rest_name" type="text" placeholder="Restaurant Name" class="form-control" title="No special characters allowed!"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+                                    </div>
+                                    	<div class="form-group"><label class="control-label">*Cuisine</label>
+											<div>
+											<select id="select_cuisine" name="select_cuisine" class="form-control" multiple="multiple">
+											{% for cuisine in cuisine_list %}            									
+													<option value="{{cuisine.fact_id}}">{{cuisine.fact_cuisine}}</option>											
+											{% endfor %}   
+											</select>
+											</div>
+                                 </div>  
+                                    <div class="form-group"><label class="control-label">*Contact Number</label>
+                                   <input name="rest_contactno" type="text" pattern="[0-9]{10}" placeholder="Contact Number" class="form-control" title="Only numbers and cannot be more than 10 digits" required> 
+                                    </div>
+                                    <div>
+                                    <input name="rest-hour-check" id="hour-check" type="checkbox" onchange="valueChanged()">&nbsp;&nbsp;<label class="control-label">24 hours</label><br><br>
+                                    </div>
+                                    <div class="form-group">
+                                <label class="control-label">*Hours Of Operation:</label><br><br>
+                                <div class="row">
+                                <div class="col-md-2">
+                                <label class="control-label">Day:</label>
+                                </div>
+                                <div class="col-md-5">
+                                <label class="control-label">from</label>
+                               	<!-- <input required="required" name="rest_open_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select required="" name="rest_open_day" id="rest_open_day" class="op-hours ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>
+            							
+            							<div class="col-md-5">
+            							<label class="control-label">to</label>
+                                <!-- <input required="required" name="rest_close_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select required="" name="rest_close_day" id="rest_close_day" class="op-hours ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+                                                                
+            							</div>            							
+                                </div>
+                                <br>                                
+                                <div class="row">
+                                <div class="col-md-2">
+                                <label class="control-label">Evening:</label>
+                                </div>
+                                <div class="col-md-5">
+                                <label class="control-label">from</label>
+                               	<!-- <input required="required" name="rest_open_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select name="rest_open_eve" id="rest_open_eve" class="op-hours ui-timepicker-select form-control timings"><option value=""><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>
+            							
+            							<div class="col-md-5">
+            							<label class="control-label">to</label>
+                                <!-- <input required="required" name="rest_close_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                               <select name="rest_close_eve" id="rest_close_eve" class="op-hours ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+                               <!--  <script>
+                							$(function() {
+                    								$('#.time').timepicker();
+                							});
+            							</script> -->
+            							</div>            							
+                                </div>
+                                </div>
+                                <br><br>
+                                <div class="form-group"><label class="control-label">About Us</label>
+                                  <!-- <input type="text" placeholder="Restaurant Details" class="form-control"> -->
+                                 <textarea name="rest_desc" cols="46" rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                &nbsp;
+                                
+                                </div>
+                                
+                                  <div class="col-lg-5">
+                                  <div class="form-group"><label class="control-label">*Image Upload</label>	
+                                  <br>			               	               
+									        <span class="form-control">
+									        	<input required type="file" name="file" size="50" accept="image/*">
+									        </span>                               
+               						</div>
+               					
+                                <div class="form-group"><label class="control-label">*Address Line 1</label>
+                                  <input required name="rest_addr1" type="name" placeholder="Address Line 1" id="addrl1" class="form-control" required>
+                                  <br>
+                                  <label class="control-label">Address Line 2</label>
+                                  <input name="rest_addr2" type="name" placeholder="Address Line 2" id="addrl2" class="form-control">
+                                  <br>
+                                  <label class="control-label">*Area</label>
+                                  <input name="rest_area" type="name" id="area" placeholder="Area" class="form-control" required>
+                                  <br>
+											 <div class="row">
+                                  <div class="col-md-6">
+                                  <label class="control-label">*City</label>
+                                  
+                                  <select required class="form-control" id="restcity"  name="rest_city" required onchange="factlink()">
+                                  <option selected="selected"></option>
+                                  {% for city in area_list %}
+                                  <option>{{city.fact_city}}</option>
+                                  {% endfor %}                                  
+                                  </select>
+                                  </div>
+                                  <div class="col-md-6">
+                                  <label class="control-label">*State</label>
+                                  <input readonly="readonly" id="reststate" name="rest_state" type="name" pattern="[A-Za-z\s]+" placeholder="State" class="form-control" title="Only letters allowed">
+                                  </div>
+											</div>
+											<br>
+											<label class="control-label">*Pincode</label>
+                                  <input required name="rest_pincode" id="restpincode" type="text" pattern="[0-9]{6}" placeholder="Pincode" class="form-control" title="Only numbers and cannot be more than 6 digits!" required>	
+                                    </div>
+											    
+											<div hidden class="row">
+                                  <div class="col-md-6">
+                                  <label class="control-label">*Latitude</label>                                  
+                                  <input class="form-control" id="lat"  name="lat_txt"  readonly="readonly"> 
+                                  </div>
+                                  <div class="col-md-6">
+                                  <label class="control-label">*Longitude</label>
+                                  <input readonly="readonly" id="lng"  type="name" name="lng_txt"  class="form-control">
+                                  </div>
+											</div>
+									
+											<div class="row" style="padding: 15px">
+                                  <div class="col-md-12" id="mapCanvas"  style="height:30vh; ">
+																					
+											                                                           
+                                </div>
+                                </div>
+                                  </div>
+                                  
+                                  <!-- <div class="row">
+                                 <div class="col-lg-5">
+                                
+                                  </div>
+                                <div class="col-lg-1">
+                                &nbsp;
+                                </div>
+                                <div class="col-lg-5">
+                                
+                                </div>
+                                <div class="row">
+                                 <div class="col-xs-5">
+                                
+                                </div>
+                                 <div class="col-lg-1">
+                                &nbsp;
+                                </div>
+                                  </div>
+</div> -->
+         
+     </div>
+ </div>
+</div>
+ <div class="col-sm-6">
+     <div class="ibox">
+     <div class="ibox-title">
+                        <h5>Restaurant Owner</h5>
+                        <div class="ibox-tools">
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+          <div class="ibox-content" style="padding-bottom: 59px;">
+            
+               <div class="form-group"><label class="control-label">First Name</label>
+              <input name="owner_fname" type="text" placeholder="First Name" class="form-control" title="Only letters allowed">             
+               </div>
+               <div class="form-group"><label>Last Name</label>
+                <input name="owner_lname" type="text" placeholder="Last Name" class="form-control" title="Only letters allowed">
+               </div>
+			      <div class="form-group"><label class="control-label">Contact Number</label>
+              <input name="owner_contactno" type="text" placeholder="Contact Number" class="form-control" title="Only numbers and cannot be more than 10 digits"> 
+               </div>
+               <div class="form-group"><label class="control-label">Email ID</label>
+             <input name="owner_email" type="email" placeholder="Email ID" class="form-control"> 
+             
+               </div>
+               
+               
+         </div>
+         
+     </div>
+ </div> 
+ <!-- <div class="col-sm-1">
+                                &nbsp;
+                                </div> --> 
+ <div class="row">
+ <div class="col-sm-6">
+     <div class="ibox">
+<div class="ibox-title">
+                        <h5>Restaurant Branch</h5>
+                        <div class="ibox-tools">
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+          <div class="ibox-content">
+
+               <div class="row">
+              <!-- pattern="^[a-zA-Z0-9\s]+$" -->
+                    <div class="col-md-12">             
+                                <div class="form-group"><label class="control-label">Branch Name</label>
+              								<input name="branch_name" pattern="[A-Za-z\s]+" type="name" placeholder="Branch Name" class="form-control" title="Only letters allowed"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+               						</div>
+              
+              <div class="form-group"><label class="control-label">Cuisine</label>
+              <div>
+               <select id="select_cuisine_rb" class="form-control" multiple="multiple">
+					{% for cuisine in cuisine_list %}            									
+					<option value="{{cuisine.fact_id}}">{{cuisine.fact_cuisine}}</option>											
+					{% endfor %}   
+					</select>
+					</div>
+               </div>             
+               
+					<div class="form-group"><label class="control-label">Contact Number</label>
+              <input name="branch_contact" pattern="[0-9]{10}" type="name" placeholder="Contact Number" class="form-control" title="Only letters allowed"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+               </div> 
+                                    <div>
+                                    <input name="rb-hour-check" id="hour-check-rb" type="checkbox" onchange="rb_valueChanged()">&nbsp;&nbsp;<label class="control-label">24 hours</label><br><br>
+                                    </div>
+                                    <div class="form-group">
+                                <label class="control-label">Hours Of Operation:</label><br><br>
+                                <div class="row">
+                                <div class="col-md-2">
+                                <label class="control-label">Day:</label>
+                                </div>
+                                <div class="col-md-5">
+                                <label class="control-label">from</label>
+                               	<!-- <input required="required" name="rest_open_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select name="branch_day_from" id="branch_day_from" class="op-hours-rb ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>
+            							
+            							<div class="col-md-5">
+            							<label class="control-label">to</label>
+                                <!-- <input required="required" name="rest_close_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select name="branch_day_to" id="branch_day_to" class="op-hours-rb ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+                                                                
+            							</div>            							
+                                </div>
+                                <br>                                
+                                <div class="row">
+                                <div class="col-md-2">
+                                <label class="control-label">Evening:</label>
+                                </div>
+                                <div class="col-md-5">
+                                <label class="control-label">from</label>
+                               	<!-- <input required="required" name="rest_open_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select name="branch_eve_from" id="rb_open_eve" class="op-hours-rb ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>
+            							
+            							<div class="col-md-5">
+            							<label class="control-label">to</label>
+                                <!-- <input required="required" name="rest_close_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                               <select name="branch_eve_to" id="rb_close_eve" class="op-hours-rb ui-timepicker-select form-control timings"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+                               <!--  <script>
+                							$(function() {
+                    								$('#.time').timepicker();
+                							});
+            							</script> -->
+            							</div>            							
+                                </div>
+                                </div>
+                                <br>                               
+                                                               
+                                  
+                                  <!-- <div class="form-group"><label class="control-label">Image Upload</label>	
+			               <p></p>		               
+        <span class="btn btn-primary btn-sm">
+        	<input type="file" name="file" size="50">
+        </span>                
+
+              <input name="branch_image" type="file" placeholder="Upload an image" class="form-control"> --> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> 
+               </div> -->
+                                <div class="form-group"><label class="control-label">Address Line 1</label>
+                                  <input name="branch_addr1" type="name" placeholder="Address Line 1" class="form-control">
+                                  <br>
+                                  <label class="control-label">Address Line 2</label>
+                                  <input name="branch_addr2" type="name" placeholder="Address Line 2" class="form-control">
+                                  <br>
+                                  <label class="control-label">Area</label>
+                                  <input name="branch_area" type="name" placeholder="Area" class="form-control">
+                                  <br>
+                                  <div class="row">
+                                  <div class="col-md-6">
+                                  <label class="control-label">City</label>
+                                  
+                                  <select class="form-control" id="rb-city" name="branch_city" onchange="rb_fact_link()">
+                                  <option selected="selected"></option>
+                                         {% for city in area_list %}
+                                  <option>{{city.fact_city}}</option>
+                                  {% endfor %}      
+                                  </select>
+                                  </div>
+                                  <div class="col-md-6">
+                                  <label class="control-label">State</label>
+                                  <input readonly="readonly" id="rb-state" name="branch_state" type="name" pattern="[A-Za-z\s]+" placeholder="State" class="form-control" title="Only letters allowed">
+                                  </div>
+											</div>
+											<br>
+											<label class="control-label">Pincode</label>
+                                  <input name="branch_pincode" type="text" pattern="[0-9]+{6}" placeholder="Pincode" class="form-control" title="Only numbers and cannot be more than 6 digits!">	
+                                    </div>
+											<br><br>                                    
+                                   <!--  <div class="form-group"><label class="control-label">Contact Number</label>
+                                   <input name="branch_contactno" type="text" pattern="[0-9]+{10}" placeholder="Contact number" class="form-control" title="Only numbers and cannot be more than 10 digits"> 
+                                    </div> -->
+                                
+                                </div>                                  
+                           
+         </div>
+         		</div>
+     </div>
+     </div>
+ </div>
+</div>
+  </form>
+  
+   
+			                
+          	<div class="modal fade" id="upload_image" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">DealMonk</h4>
+        								</div>
+        								   
+        							<!-- 	<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data" action="/upload-admin-image/">  --> 	
+        									<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Select Image.</p>
+							                       <!--  <input name="image_load" type="file" class="form-control" id="exercisevideo"  accept=accept=".png, .jpg, .jpeg" /> -->
+															 <input type="file" id='admin_image' name="pic" accept=".png, .jpg, .jpeg">	
+															 <input type="hidden" id="login_user_name" name="user_name" value="{{request.session.login_user}}"></input>	
+															 				                    
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_upload"  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_ok_upload" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  					
+  					  					<div class="modal fade" id="update_add" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">Update Address</h4>
+        								</div>
+        								  	
+        									<form name="updateAddForm" id="updateAddForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Are you sure you want to change the restaurant address to the one chosen in the map:</p>
+							                        <p id="add_msg"></p>            
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_update" data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_update_add" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  			  
+  
+  <div class="footer">
+ <div>
+  <strong>Copyright</strong> DealMonk © 2015-2016
+ </div>
+</div>
+
+  </div>
+  </div>
+
+
+
+ <!-- Mainly scripts -->
+ <script src="/static/assets/js/jquery-2.1.1.js"></script>
+ <script src="/static/assets/js/bootstrap.min.js"></script>
+ <script src="/static/assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+ <script src="/static/assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+ <script src="/static/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+ <!-- Custom and plugin javascript -->
+ <script src="/static/assets/js/inspinia.js"></script>
+  <script src="/static/assets/js/jquery.timepicker.min.js"></script> 
+ <script src="/static/js/date.js"></script>
+ <script src="/static/assets/js/plugins/pace/pace.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+<script src="{%static 'assets/js/bootstrap-multiselect.js'%}"></script>
+
+ <script type="text/javascript">
+$(document).ready(function(){
+
+
+
+   $('#select_cuisine').multiselect({
+        includeSelectAllOption: true
+    });
+
+$('#select_cuisine_rb').multiselect({
+        includeSelectAllOption: true
+    });
+
+    //$("#select_cuisine").multiselect('selectAll', false);
+    //$("#select_cuisine").multiselect('updateButtonText');
+
+
+   
+	if($('#hour-check').is(":checked"))
+    $(".op-hours").prop('disabled', true);   
+        //$("#").hide(500);
+    else
+        $(".op-hours").prop('disabled', false); 
+        
+    if($('#hour-check-rb').is(":checked"))
+    $(".op-hours-rb").prop('disabled', true);   
+        //$("#").hide(500);
+    else
+        $(".op-hours-rb").prop('disabled', false);    
+});
+
+	
+            
+
+function valueChanged()
+{
+    if($('#hour-check').is(":checked"))
+    $(".op-hours").prop('disabled', true);   
+        //$("#").hide(500);
+    else
+        $(".op-hours").prop('disabled', false);    
+}
+
+function rb_valueChanged()
+{
+    if($('#hour-check-rb').is(":checked"))
+    $(".op-hours-rb").prop('disabled', true);   
+        //$("#").hide(500);
+    else
+        $(".op-hours-rb").prop('disabled', false);    
+}
+
+
+//if(rest_od >= rest_cd)
+//{
+//DO SOMETHING THERE THE SAME
+//alert('Time error!')
+//return true
+//}
+//else if(firstInput > secondInput)
+//{
+//DO SOMETHING FIRST IS GREATER THAN SECOND
+//}
+//else
+//{
+//DO SOMETHING SECOND IS GREATER THAN FIRST
+//}   
+//}
+
+//var fromdt="2013/05/29 12:30 PM";
+//var todt="2013/05/29 01:30 AM";
+//var from = new Date(Date.parse(fromdt));
+//var to = new Date(Date.parse(todt));
+//alert(from);
+//alert(to)
+//if (from > to){
+ // alert("From");   
+//}else{
+ // alert("To");       
+//}
+
+
+ $('#datepicker').datepicker();
+ $(function(){
+				$('#datepicker').datepicker();
+		 });
+ $("#datepicker").on("changeDate", function(event) {
+   		$(this).datepicker('hide');
+   });
+   
+   $('#optime').timepicker();
+
+</script>
+
+<script type="text/javascript" >
+
+var exists = false;
+
+$('#btn_update_add').click(function(){
+	var str = $('#add_msg').text();
+var res = str.split(",");
+  var count=res.length;
+  var st_pin=res[count-2].split(" ");
+  if(st_pin.length==3){
+  var state = st_pin[1];
+  var pin = st_pin[2];
+  }else{
+  var state = st_pin[1];
+  var pin = st_pin[3];
+  }
+  var city = res[count-3]
+  var area = res[count-4].trim();
+  var addr1 = res[0].trim();
+  var addr2 = res[1].trim();
+  //alert(addr1);
+	
+	check_val=check_value(city);
+	if (exists==false){
+		alert("Please select valid city form city list");
+		return false;
+	}else{
+	$("#addrl1").val(addr1);
+    $("#addrl2").val(addr2);
+	$("#area").val(area);
+	$('#reststate').val(state);
+	$("#restpincode").val(pin);
+	//$('#restcity :selected').text(city);
+	$('#restcity').val(city.trim());
+	return true;	
+	}
+});
+
+$('#btn_cancel_update').click(function(){
+	$('#update_add').modal('hide');
+	//location.reload();
+});
+   
+   
+function check_value(city){
+var city=city.trim();
+console.log(city);
+console.log('---------------------');
+exists=false;
+$('#restcity option').each(function(){
+console.log(this.value);
+    if ((this.value).toString() == city) {   
+        exists = true;
+        return false;
+    }    
+});
+return false;
+}  
+
+</script>
+
+<script type="text/javascript" >
+
+
+/*--------------------------------------------------------------*/
+function validate(){
+//alert('check me');
+//return false;
+
+console.log('validation');
+//Restaurant validation
+console.log("Restaurant timings-----------------------");
+var rest_od = $('#rest_open_day :selected').text();
+console.log(rest_od);
+var rest_cd = $('#rest_close_day :selected').text();
+console.log(rest_cd);
+var rest_oe = $('#rest_open_eve :selected').text();
+console.log(rest_oe);
+var rest_ce = $('#rest_close_eve :selected').text();
+console.log(rest_ce);
+
+//Restaurant Branch validation
+console.log("Resaturant Branch timings........");
+var rb_od = $('#rb_day_from :selected').text();
+console.log(rb_od);
+var rb_cd = $('#rb_day_to :selected').text();
+console.log(rb_cd);
+var rb_oe = $('#rb_eve_from :selected').text();
+console.log(rb_oe);
+var rb_ce = $('#rb_eve_to :selected').text();
+console.log(rb_ce);
+
+console.log("Restaurant parsed dates..................");
+
+var rest_day_from = $('#rest_open_day :selected').val();
+console.log(rest_day_from);
+var rest_day_to = $('#rest_close_day :selected').val();
+console.log(rest_day_to);
+var rest_eve_from = $('#rest_open_eve :selected').val();
+console.log(rest_eve_from);
+var rest_eve_to = $('#rest_close_eve :selected').val();
+console.log(rest_eve_to);
+
+console.log("RestaurantBranch parsed dates..................");
+var rb_day_from= $('#rb_day_from :selected').val();
+console.log(rb_day_from);
+var rb_day_to= $('#rb_day_to :selected').val();
+console.log(rb_day_to);
+var rb_eve_from= $('#rb_eve_from :selected').val();
+console.log(rb_eve_from);
+var rb_eve_to= $('#rb_eve_to :selected').val();
+console.log(rb_eve_to);
+
+if(rest_eve_from =="" && rest_eve_to =="")
+{
+return true;
+}
+else if(rest_day_to == rest_eve_from)
+{
+return true;
+}
+else if(rest_eve_from =="00:00" && rest_eve_to =="00:00")
+{
+return true;
+}
+else if(rest_eve_from =="" && rest_eve_to !=""){
+alert("Please select Restaurant Evening-Start time");
+return false;
+}
+else if(rest_eve_from !="" && rest_eve_to ==""){
+alert("Please select Restaurant Evening-End time");
+return false;
+}
+else if(rest_day_from > rest_day_to){
+	alert("Restaurant Day-Start time cannot be greater than End time!");
+	return false;
+}
+else if(rest_eve_from > rest_eve_to){
+	alert("Restaurant Evening-Start time cannot be greater than End time!");
+	return false;
+}
+else if(rest_eve_from < rest_day_to){
+	alert("Restaurant Evening-Start time cannot be greater than End time!");
+	return false;
+}
+else if(rb_day_to == rb_eve_from)
+{
+return true;
+}
+else if(rb_eve_from =="" && rb_eve_to =="")
+{
+return true;
+}
+else if(rb_eve_from =="00:00" && rb_eve_to =="00:00")
+{
+return true;
+}
+else if(rb_eve_from =="" && rb_eve_to !=""){
+alert("Please select Restaurant Branch Evening-Start time");
+return false;
+}
+else if(rb_eve_from !="" && rb_eve_to ==""){
+alert("Please select Restaurant Branch Evening-End time");
+return false;
+}
+else if(rb_day_from > rb_day_to){
+	alert("Restaurant Branch Day-Start time cannot be greater than End time!");	
+	return false;
+}
+else if(rb_eve_from > rb_eve_to){
+alert("Restaurant Branch Evening-Start time cannot be greater than End time!");
+	return false;
+}
+else{
+	return true;
+}
+};
+/*------------------------------------------------------------------------*/
+
+
+	
+
+function factlink()
+{	
+	var city=$('#restcity :selected').text();
+	if(city){
+	$.ajax({ 				          
+            type : 'GET',
+            url : '/map-state/',
+            data : {'city': city },                              
+ 				success: function(data) {
+ 				if(data){ 					                                    
+             $('#reststate').val(data.state);
+             }                                   
+           },
+           error: function(response){
+           			alert("Error!");
+           },        
+
+        });
+        }
+        else{
+   			 $('#reststate').val("");
+        }
+}
+
+function rb_fact_link()
+{	
+	var city=$('#rb-city :selected').text();
+	if(city){
+	$.ajax({ 				          
+            type : 'GET',
+            url : '/map-state/',
+            data : {'city': city },                              
+ 				success: function(data) { 
+ 				if(data)
+ 				{					                                    
+             document.getElementById('rb-state').value=data.state;
+             }
+                          
+           },
+           error: function(response){
+           			alert("Error!");
+           },        
+
+        });
+        }
+    else{
+    	document.getElementById('rb-state').value="";
+    }
+}
+
+
+/*------------------------------GMAP-------------------------------*/
+
+$(document).ready(function(){
+    validates();
+    $('#addrl1,#addrl2, #area, #restcity, #reststate,#restpincode').keyup(validates);
+});
+
+var geocoder = new google.maps.Geocoder();
+var map;
+var marker;
+var infoWindow;
+function geocodePosition(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function geocodePosition1(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+    //$('#add_msg').text(responses[0].formatted_address);
+    //$("#update_add").modal('show');
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function updateMarkerStatus(str) {
+  //document.getElementById('markerStatus').innerHTML = str;
+}
+
+function updateMarkerPosition(latLng) {
+
+  $("#lat").val(latLng.lat());
+  $("#lng").val(latLng.lng());
+}
+
+function updateMarkerAddress(str) {
+  //document.getElementById('address').innerHTML = str;
+  infoWindow.setContent(str);
+}
+
+function initialize() {
+  var latLng = new google.maps.LatLng(-34.397, 150.644);
+ map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    zoom: 8,
+    //center: latLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+     infoWindow = new google.maps.InfoWindow({map: map});
+     var latlngbounds = new google.maps.LatLngBounds();
+  marker = new google.maps.Marker({
+    position: latLng,
+    title: 'Point A',
+    map: map,
+    draggable: true
+  });
+  google.maps.event.addListener(map, 'click', function (e) {
+      $("#lat").val(e.latLng.lat());
+      $("#lng").val(e.latLng.lng());
+
+      placeMarker(e.latLng, map);
+      infoWindow.open(map, this);
+      map.setZoom(8);
+
+          });
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('You are here.');
+      map.setCenter(pos);
+      placeMarker2(position,map);
+
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+  // Update current position info.
+  //updateMarkerPosition(latLng);
+  //geocodePosition(latLng);
+
+
+  google.maps.event.addListener(marker, 'click', function() {
+      geocodePosition(marker.getPosition());
+        infoWindow.open(map, this);
+        map.setZoom(8);
+    });
+  // Add dragging event listeners.
+  google.maps.event.addListener(marker, 'dragstart', function() {
+    //updateMarkerAddress('Dragging...');
+  });
+
+  google.maps.event.addListener(marker, 'drag', function() {
+    //updateMarkerStatus('Dragging...');
+    updateMarkerPosition(marker.getPosition());
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+    //updateMarkerStatus('Drag ended');
+    geocodePosition(marker.getPosition());
+    infoWindow.open(map, this);
+    map.setZoom(8);
+  });
+}
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.');
+    }
+function placeMarker(position, map) {
+    if ( marker ) {
+        marker.setPosition(position);
+        geocodePosition(marker.getPosition());
+      } else {
+        marker = new google.maps.Marker({
+          position: position,
+          map: map,
+         title: 'Drag Me!',
+         draggable: true
+        });
+      }
+    map.panTo(position);
+  }
+  function placeMarker2(position, map) {
+    if ( marker ) {
+        marker.setPosition(position);
+        
+      } else {
+        marker = new google.maps.Marker({
+          position: position,
+          map: map,
+         title: 'Drag Me!',
+         draggable: true
+        });
+      }
+    map.panTo(position);
+  }
+
+function codeAddress() {
+
+    var geocoder = new google.maps.Geocoder();
+    var lat='';
+    var lng='';
+    var city_state_zip =$('#restcity :selected').text()+", "+$("#reststate").val()+", "+$("#restpincode").val();
+    var street_address = $("#addrl1").val()+" "+$("#addrl2").val()+", "+$("#area").val();
+    var address = street_address + " " + city_state_zip;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+       lat = results[0].geometry.location.lat(); //getting the lat
+       $('#lat').val(lat);
+       lng = results[0].geometry.location.lng(); //getting the lng
+       $('#lng').val(lng);
+       map.setCenter(results[0].geometry.location);
+			$("#lat").val(lat);
+      $("#lng").val(lng);
+       placeMarker(results[0].geometry.location,map);
+     } else {
+            //alert("Geocode was not successful for the following reason: " + status);
+            }
+     });
+     var latlng = new google.maps.LatLng(lat, lng);
+     var myOptions = {
+         zoom: 4,
+         center: latlng,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+     }
+
+ }
+
+function validates(){
+    if ($('#addrl1').val().length   > 0  && $('#area').val().length   >   0   &&
+        $('#restcity :selected').text().length  >   0   &&
+        $('#reststate').val().length    >   0 && $('#restpincode').val().length    >   0) {
+        codeAddress();
+    }
+
+}
+function GetAddress() {
+    var lat = parseFloat();
+    var lng = parseFloat(document.getElementById("txtLongitude").value);
+    var latlng = new google.maps.LatLng(lat, lng);
+
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+
+                infoWindow.setContent(str);
+            }
+        }
+    });
+}
+// Onload handler to fire off the app.
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+/*------------------------------GMAP_END------------------------------------*/
+
+
+
+    </script> 
+
+
+</script>
+
+<script>
+    var expanded = false;
+    function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
+</script>
+
+<script type="text/javascript">
+function validate_cuisine(){
+var cuisine = $('#select_cuisine').val();
+  if(cuisine==null) {
+    alert('Please select cuisine');
+    return false;
+  }else {
+  	return validate();
+  } 
+}
+</script>
+
+<script type="text/javascript" >
+$('#user_img').click(function(){
+	$('#upload_image').modal('show');
+});
+
+$('#btn_ok_upload').click(function(){
+
+  var input = document.getElementById("admin_image");  	  
+    file = input.files[0];
+	 var formData= new FormData();  
+  	 if(file != undefined){ 	 
+    	if(!!file.type.match(/image.*/)){
+      	formData.append("image", file);    
+      	formData.append("user_name",$('#login_user_name').val());      	
+      	$.ajax({
+    			type : 'POST',
+    			url : '/upload-admin-image/',
+    			data : formData,
+    			cache: false,
+    			processData: false,
+    			contentType: false,
+    			success: function(response) {
+    				console.log(response);
+        			if(response.success=='true'){
+        				$('#user_img').attr('src',response.image);
+        			}
+        			if(response.success=='error'){
+        				alert('error!')
+        			}
+    			},
+    			error: function(response){
+            console.log(response);
+           			alert("ajax Error!");
+           }, 
+		});
+    }else{
+      alert('Not a valid image!');
+    }
+  }else{
+    //alert('Input something!');
+  } 
+});
+</script>
+
+  </body>
+</html>

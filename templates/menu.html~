@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DealMonk | Menu{{request.session.user_login}}</title>
+
+    <link href="{%static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{%static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+
+    <!-- Morris -->
+    <link href="{%static 'assets/css/plugins/morris/morris-0.4.3.min.css'%}" rel="stylesheet">
+
+    <!-- Gritter -->
+    <link href="{%static 'assets/js/plugins/gritter/jquery.gritter.css'%}" rel="stylesheet">
+
+    <link href="{%static 'assets/css/animate.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/css/style.css'%}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.css'%}"> 
+        <link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 30%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>  
+
+</head>
+
+<body>
+    <div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="background: rgba(2, 1, 1, 0) none repeat scroll 0% 0%;">
+                            <img alt="image" id='user_img' class="img-circle" src="{{user_img}}" width="48" height="48"/>
+								</a> 
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <label class="font-bold" style="text-transform:capitalize;">{{request.session.full_name}}</label>
+                             </span></span> </a>
+                    </div>
+                    <div class="logo-element">
+                        DM+
+                    </div>
+                </li>
+                <li>
+                    <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+                </li>
+                <li>
+                    <a href="/load-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+                </li>
+                <li>
+                    <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+                </li>
+                
+                <li>
+                    <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+                </li>
+                <li  class="active">
+                    <a href="/restaurant_menu/"><i class="fa fa-book"></i> <span class="nav-label">Menu</span></a>
+                </li>
+               <li>
+                    <a href="/open-change-password/"><i class="fa fa-cogs"></i> <span class="nav-label">Account Settings</span></a>
+                </li>
+
+        </div>
+    </nav>
+
+<!--         <div id="page-wrapper" class="gray-bg"> -->
+        
+       
+       <div id="wrapper">
+         
+         <div id="page-wrapper" class="gray-bg">
+         <div class="row border-bottom">
+        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message" style="text-transform:capitalize;">Welcome {{request.session.full_name}}</span>
+                </li>
+                <li>
+                    <a href="/sign-out-admin/">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+                                
+            </ul>
+
+        </nav>
+        </div>
+            <div class="row border-bottom">
+               
+            </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+               <div class="col-lg-10">
+                  <h2>Menu</h2>
+               </div>
+               <div class="col-lg-2">
+               </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                           <h5>Select your Categories</h5>
+                           <p hidden id="count">{{z}}</p>
+                        </div>
+                        <div class="ibox-content">
+                        {{error}}
+                        <div class="row">
+                           <div class="col-lg-1"></div>
+                           <div class="col-lg-8" id="menu_category">
+	                        
+									
+									
+									{%for menu in m_list%}
+									<input type="button"  class="btn btn-w-m {{menu.color}}" onclick="m(this.value,this.id,{{rest_obj.restaurant_id}})" id="{{menu.m_id}}" value="{{menu.m_category}}"></input>
+									<input hidden id="{{menu.str}}" value="0"></input>
+                           {%endfor%}
+                           
+                           
+                           {%for menu in menu_obj%}
+						         <input type="button"  class="btn btn-w-m {{menu.color}}" onclick="m(this.value,this.id,{{rest_obj.restaurant_id}})" id="{{menu.m_id}}" value="{{menu.m_category}}"></input>
+                           <input hidden id="{{menu.str}}" value="0"></input> 
+                           {%endfor%}
+                           
+                           
+                           
+                            
+                           </div>
+                           
+                           <div id="m_c"></div>
+                           <div class="col-lg-1">
+                             <button id="creat_own" type="button" class="btn btn-w-m btn-info" style="margin-top: 50%;margin-left: 84%;">
+                             Create Your Own</button>
+                              </div>
+                        </div>
+                           <br>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               
+               
+<form>                    
+	<div class="modal fade" id="testMod" role="dialog">
+		<div class="modal-dialog1">    
+			<div class="modal-content">
+        		<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title">Add your menu category</h4>
+        		</div>
+        		<div class="modal-body">        											        								
+          		<div class="ibox-content">
+						<div id='external-events'>
+							<input name="rest_id" id="resta_id" hidden value="{{rest_obj.restaurant_id}}">
+							<label>Category Name</label><input id="menu_name" placeholder="Category Name" class="form-control input-sm"/>											                     
+						</div>
+					</div>  
+
+				</div>
+        		<div class="modal-footer">
+         		<button id="menu_insert" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+         		<button id="menu_cancel" type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+        		</div>
+      		</div>      
+    		</div>
+  		</div>
+  		
+  		<div class="modal fade" id="delMod" role="dialog">
+		<div class="modal-dialog1">    
+			<div class="modal-content">
+        		<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title">Delete Menu</h4>
+        		</div>
+        		<div class="modal-body">        											        								
+          		<div class="ibox-content">
+						<div id='external-events'>
+							<input id="resta_id" hidden value="{{rest_obj.restaurant_id}}">
+							<label>Are you sure you want to delete this menu?</label>
+							<h5 id="name"></h5>											                     
+						</div>
+					</div>  
+				</div>
+        		<div class="modal-footer">
+         		<button id="menu_delete" type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+         		<button id="menu_cncl" type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+        		</div>
+      		</div>      
+    		</div>
+  		</div>
+  		
+  		<div class="modal fade" id="upload_image" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">DealMonk</h4>
+        								</div>
+        								   
+        							<!-- 	<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data" action="/upload-admin-image/">  --> 	
+        									<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Select Image.</p>
+							                       <!--  <input name="image_load" type="file" class="form-control" id="exercisevideo"  accept=accept=".png, .jpg, .jpeg" /> -->
+															 <input type="file" id='admin_image' name="pic" accept=".png, .jpg, .jpeg">	
+															 <input type="hidden" id="login_user_name" name="user_name" value="{{request.session.login_user}}"></input>	
+															 				                    
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_upload"  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_ok_upload" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  		
+</form>
+
+
+              <div class="row" id="item_form">
+	               
+               </div> 
+               
+            </div>
+                    <div class="footer">
+            
+            <div>
+                <strong>Copyright</strong> DealMonk &copy; 2015-2016
+            </div>
+        </div>
+         </div>
+      </div>
+
+    <!-- Mainly scripts -->
+    <script src="{%static 'assets/js/jquery-2.1.1.js'%}"></script>
+    <script src="{%static 'assets/js/bootstrap.min.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/metisMenu/jquery.metisMenu.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+
+    <!-- Flot -->
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.tooltip.min.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.spline.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.resize.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.pie.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.symbol.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/flot/jquery.flot.time.js'%}"></script>
+
+    <!-- Peity -->
+    <script src="{%static 'assets/js/plugins/peity/jquery.peity.min.js'%}"></script>
+    <script src="{%static 'assets/js/demo/peity-demo.js'%}"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{%static 'assets/js/inspinia.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/pace/pace.min.js'%}"></script>
+
+    <!-- jQuery UI -->
+    <script src="{%static 'assets/js/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+
+    <!-- Jvectormap -->
+    <script src="{%static 'assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'%}"></script>
+
+    <!-- EayPIE -->
+    <script src="{%static 'assets/js/plugins/easypiechart/jquery.easypiechart.js'%}"></script>
+
+    <!-- Sparkline -->
+    <script src="{%static 'assets/js/plugins/sparkline/jquery.sparkline.min.js'%}"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="{%static 'assets/js/demo/sparkline-demo.js'%}"></script>
+    <script src="{%static 'assets/js/plugins/dataTables/jquery.dataTables.js'%}"></script>
+ 
+<script>
+$(document).ready(function () {
+$("#item_form").hide(); 
+});
+
+</script>   
+
+
+<script type="text/javascript" >
+
+var inc=0;
+
+$('#creat_own').click(function () {
+$('#menu_name').val('');
+$('#testMod').modal('show');
+});
+
+
+function m(value,id,rest_id) {
+var str= value.replace(/\s/g,"");
+var sts = $('#'+str).val();
+if (sts == 0){
+	inc=inc+1;
+	$('#'+str).val('1');
+	newFunction(id,value,rest_id);
+	$('#item_form').show();
+	$('#share'+inc).html('');
+	var cat_id = id;
+	get_item(cat_id,rest_id,value,inc);
+}else if (sts != 0)
+return false;
+}
+
+$('#menu_insert').click(function () {
+   	 $.ajax({ 				          
+            			type : 'POST',
+            			url : '/insert-restaurant-menu/',
+            			data : {'menu_name': $('#menu_name').val(),'rest_id':$('#resta_id').val()},                              
+ 							success: function(response){
+								alert("Menu category added into the list");
+								//console.log(response);
+								$('#menu_category').append(response.btn);
+								location.reload();                 
+		      			},
+           					error: function(response){
+           					alert("Error!");
+           					},
+        					}); 
+}); 
+
+$('#menu_cancel').click(function () {
+		$('#testMod').hide();
+	}); 
+	
+$('#ed1').click(function () {
+		$('#it_name').attr("disabled", false);
+	}); 	
+	
+function get_item(id,rest_id,value,inc){
+var cat_id = id;
+var rest_id = rest_id;
+var cat_name = value; 
+$.ajax({ 				          
+            type : 'GET',
+            url : '/get_menu_details/',
+            data : {'rest_id': rest_id,'cat_id':cat_id,'cat_name':cat_name},                              
+ 				success: function(response){
+				$.each(response.data, function(index, item) {
+	        			$('#share'+inc).append(item.share);
+						});			 			return true;                    
+		      },
+           error: function(response){
+           			alert("Error!");
+      },        
+
+      });
+}
+	
+</script>
+
+<script type="text/javascript" >
+function edit(id,menu_id) {
+var e_sts=$('#e_id'+menu_id).val();
+if (e_sts==0){
+	$('#e_id'+menu_id).val('1');
+	$('#it_name'+menu_id).attr("disabled", false);
+	$('#it_price'+menu_id).attr("disabled", false);
+	$('#it_type'+menu_id).attr("disabled", false);
+	$('#ed'+menu_id).val("Save");
+	$('#ed'+menu_id).removeClass("btn-outline");
+	$('#ed'+menu_id).addClass("btn-primary");
+	$('#ed'+menu_id).attr('id', 'save_btn'+menu_id);
+	
+	$('#v_btn'+menu_id).click(function (){
+		$('#it_type'+menu_id).val("VEG");
+		$('#nv_btn'+menu_id).addClass("btn-outline");
+		$('#gf_btn'+menu_id).addClass("btn-outline");
+		$('#v_btn'+menu_id).removeClass("btn-outline");
+	});
+	$('#nv_btn'+menu_id).click(function (){
+		$('#it_type'+menu_id).val("NON-VEG");
+		$('#gf_btn'+menu_id).addClass("btn-outline");
+		$('#v_btn'+menu_id).addClass("btn-outline");
+		$('#nv_btn'+menu_id).removeClass("btn-outline");
+	});
+	$('#gf_btn'+menu_id).click(function (){
+		$('#it_type'+menu_id).val("GLUTEN FREE");
+		$('#nv_btn'+menu_id).addClass("btn-outline");
+		$('#v_btn'+menu_id).addClass("btn-outline");
+		$('#gf_btn'+menu_id).removeClass("btn-outline");
+	});
+	
+	}
+	else{
+	save(menu_id);
+	}
+}
+
+function save(menu_id){
+$('#e_id'+menu_id).val('0');
+var menu_id = menu_id;
+var it_name = $('#it_name'+menu_id).val();
+var it_price = $('#it_price'+menu_id).val();
+var it_type = $('#it_type'+menu_id).val();
+
+if(it_name=='') {
+	alert('Please insert menu name!!!');
+	return false;
+}else if(it_price=='') {
+	alert('Please insert menu price!!!');
+	return false;
+}
+else if (it_price<0) {
+	alert("Menu price is invalid!!!");
+	return false;
+}
+else if(isNaN(it_price)){
+	alert("Menu price is invalid!!!");
+	return false;
+}
+else if(it_type=='') {
+	alert('Please select menu type!!!');
+	return false;
+}		
+		
+$.ajax({ 				          
+         type : 'POST',
+         url : '/update_menu_details/',
+         data : {'menu_id':menu_id,'it_name':it_name,'it_price':it_price,'it_type':it_type},                              
+ 				success: function(response) { 				
+          if(response.success=='true') {            
+          alert('Menu item Updated!');
+                                         
+          } else if(response.status === 'error') {
+              alert("Fail!");
+           }
+        },
+        error: function(response){
+        			alert("Error!");
+        },        
+
+     });
+		
+$('#it_name'+menu_id).attr("disabled", true);
+$('#it_price'+menu_id).attr("disabled", true);
+$('#it_type'+menu_id).attr("disabled", true);
+$('#save_btn'+menu_id).val("Edit");
+$('#save_btn'+menu_id).attr('id', 'ed'+menu_id);
+$('#ed'+menu_id).removeClass("btn-primary");
+$('#ed'+menu_id).addClass("btn-outline");
+$('#ed'+menu_id).addClass("btn-primary");
+
+}
+
+function delt(id,menu_id,menu_name){
+		$('#delMod').modal('show');
+		var menu_name = $('#it_name'+menu_id).val();
+		$('#name').text(menu_name);
+		$('#menu_delete').click(function(){
+	   dlt(menu_id);		
+		});		
+		$('#menu_cncl').click(function(){
+		$('#delMod').modal('hide');
+		});
+}
+
+   
+function dlt(menu_id){
+	$.ajax({ 				          
+            type : 'POST',
+            url : '/delete_menu_details/',
+            data : {'menu_id':menu_id},                              
+ 				success: function(response) { 				
+             if(response.success==='true') {            
+             //alert('Menu item deleted!');
+					$('#m_f'+menu_id).html('');                               
+             } else if(response.status === 'error') {
+                 alert("Fail!");
+              }
+           },
+           error: function(response){
+           			alert("Error!");
+           },        
+
+        });
+   }   
+                  
+</script>
+
+<script type="text/javascript" >
+
+var c=0;
+
+function newFunction(id,value) {
+
+c=c+1;
+$("#item_form").append( '<div id="it_frm'+c+'">'+
+								'<div class="col-lg-12">'+
+		               	'<div class="ibox float-e-margins">'+
+		               	'<div class="ibox-title">'+
+		               	'<h5 id="menu_title'+c+'"></h5>'+
+								'<div class="ibox-tools">'+
+                              '<a class="close-link" onclick="tst('+c+')">'+
+                              '<i class="fa fa-times"></i>'+
+                              '</a>'+
+                        '</div>'+
+		               	'</div>'+
+			               '<div class="ibox-content form-inline">'+
+				               '<div id="menu_form'+c+'">'+
+				               '<div class="col-sm-1">'+
+					               '<button id="add_btn_'+c+'" onclick="myFunction(this.id)" class="btn btn-primary"><i class="fa fa-plus"></i></button>'+
+				               '</div>'+ 
+				               '<div class="form-group">'+
+					               '<input hidden name="menu_title" id="menu_tle'+c+'"></input>'+
+					               '<input hidden name="menu_id" id="menu_id'+c+'"></input>'+
+					               '<input hidden name="rest_id" id="rest_id" value={{rest_obj.restaurant_id}}></input>'+
+					               '<input required name="item_name" id="item_name'+c+'" type="text" placeholder="Item Name" class="form-control" style="width: 380px;" maxlength="45">'+
+				               '</div>'+
+				               '&nbsp;&nbsp;&nbsp;'+
+				               '<div class="form-group">'+
+				               	'<input required name="item_price" id="item_price'+c+'" pattern="[0-9]{10}" placeholder="Item Price" class="form-control" maxlength="3" style="width: 200px;">'+
+				               '</div>'+ 
+				               '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+					               '<button id="veg_'+c+'" onclick="veg(this.id)" class="btn btn-outline btn-primary btn-circle" type="button">V</button>&nbsp;&nbsp;'+
+					               '<button id="gf_'+c+'" onclick="gf(this.id)" class="btn btn-outline btn-warning btn-circle" type="button">GF</button>&nbsp;&nbsp;'+
+					               '<button id="non-veg_'+c+'" onclick="non(this.id)" class="btn btn-outline btn-danger btn-circle" type="button">NV</button>'+
+					               '<input hidden name="type_name" id="type_id'+c+'"></input>'+   
+					               '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+					               '<button class="btn btn-primary" id="saveitem_'+c+'" onclick="sv_bn(this.id)">Save</button>&nbsp;&nbsp;'+
+					               '<button class="btn btn-white" id="cancelitem_'+c+'" onclick="cncl_bn(this.id)">Cancel</button>'+
+				               '<br>'+
+				               '</div><br>'+
+								'<div id="share'+c+'">'+
+								'</div>'+
+			               '</div>'+
+		               '</div>'+
+	               '</div>'+
+               			'</div>'
+								);
+
+$('#menu_title'+c).text(value);
+$('#menu_tle'+c).val(value);
+$('#menu_id'+c).val(id);
+}
+
+function tst(c){
+var value = $('#menu_title'+c).text();
+var str= value.replace(/\s/g,"");
+$('#'+str).val('0');
+$('#it_frm'+c).html('');
+}
+
+function veg(id){
+var temp = id.split("_")
+var id = temp[1];
+$('#non-veg_'+id).addClass("btn-outline");
+$('#gf_'+id).addClass("btn-outline");
+$('#veg_'+id).removeClass("btn-outline");
+$('#type_id'+id).val('VEG');
+}
+
+function gf(id){
+var temp = id.split("_")
+var id = temp[1];
+$('#non-veg_'+id).addClass("btn-outline");
+$('#veg_'+id).addClass("btn-outline");
+$('#gf_'+id).removeClass("btn-outline");
+$('#type_id'+id).val('GLUTEN FREE');
+}
+
+function non(id){
+var temp = id.split("_")
+var id = temp[1];
+$('#veg_'+id).addClass("btn-outline");
+$('#gf_'+id).addClass("btn-outline");
+$('#non-veg_'+id).removeClass("btn-outline");
+$('#type_id'+id).val('NON-VEG');
+}
+
+function cncl_bn(id){
+var temp = id.split("_")
+var id = temp[1];
+   $('#item_name'+id).val('');
+  	$('#item_price'+id).val('');
+  	$('#veg_'+id).addClass("btn-outline");
+	$('#gf_'+id).addClass("btn-outline");
+	$('#non-veg_'+id).addClass("btn-outline");
+}
+
+
+function sv_bn(id,inc){
+var temp = id.split("_")
+var id = temp[1];
+var cat_id = $('#menu_id'+id).val();
+var rest_id = $('#rest_id').val();
+var cat_name = $('#menu_tle'+id).val();
+var it_name = $('#item_name'+id).val();
+var it_price = $('#item_price'+id).val();
+var it_type = $('#type_id'+id).val();
+if(it_name=='') {
+	alert('Please insert menu name!!!');
+	return false;
+}else if(it_price=='') {
+	alert('Please insert menu price!!!');
+	return false;
+}
+else if (it_price<0) {
+	alert("Menu price is invalid!!!");
+	return false;
+}
+else if(isNaN(it_price)){
+	alert("Menu price is invalid!!!");
+	return false;
+}
+else if(it_type=='') {
+	alert('Please select menu type!!!');
+	return false;
+}
+
+$.ajax({ 				          
+            type : 'POST',
+            url : '/add_menu_details/',
+            data : {'cat_id':cat_id,'rest_id':rest_id,'cat_name':cat_name,'it_name':it_name,'it_price':it_price,'it_type':it_type},                              
+ 				success: function(response){
+					alert("Menu item added!");
+	        			$('#share'+id).append(response.share);
+	        			$('#item_name'+id).val('');
+	        			$('#item_price'+id).val('');
+	        			$('#veg'+id).addClass("btn-outline");
+						$('#gf'+id).addClass("btn-outline");
+						$('#non-veg'+id).addClass("btn-outline");
+		      },
+           error: function(response){
+           			alert("Error!");
+           },        
+
+        });
+}
+
+
+var inc=0;
+
+function myFunction(id) {
+    inc=inc+1;
+var temp = id.split("_")
+var id = temp[2];
+$("#menu_form"+id).append( '<div id="menu_frm'+inc+'">'+
+								"<div class="+'col-sm-1'+">"+
+               			'</div>'+ 
+               			'<div class="form-group">'+
+               			'<input hidden name="menu_title" id="menu_tle'+id+'"></input>'+
+               			'<input hidden name="menu_id" id="menu_id'+id+'"></input>'+
+               			'<input hidden name="rest_id" id="rest_id" value={{rest_obj.restaurant_id}}></input>'+
+               			'<input name="item_name" id="itm_name'+inc+'" type="text" placeholder="Item Name" class="form-control" style="width: 380px;" maxlength="45">'+
+               			'</div>'+
+               			'&nbsp;&nbsp;&nbsp;'+
+               			'<div class="form-group">'+
+               			'<input name="item_price" id="itm_price'+inc+'" placeholder="Item Price" class="form-control" maxlength="3" style="width: 200px;"></div>'+ 
+               			'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+               			'<button id="vg_'+inc+'" onclick="vg_btn(this.id)" class="btn btn-outline btn-primary btn-circle" type="button">'+"V"+'</button>'+
+               			'&nbsp;&nbsp;'+
+               			'<button id="g_'+inc+'" onclick="g_btn(this.id)" class="btn btn-outline btn-warning btn-circle" type="button">'+"GF"+'</button>'+
+               			'&nbsp;&nbsp;'+
+               			'<button id="nv_'+inc+'" onclick="nov_btn(this.id)" class="btn btn-outline btn-danger btn-circle" type="button">'+"NV"+'</button>'+
+               			'<input hidden name="type_name" id="tpe_id'+inc+'"></input>'+
+               			'&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;'+
+               			'<button id="svbtn_'+inc+'" class="btn btn-primary" onclick="sv_btn(this.id,'+id+')">'+"Save"+'</button>'+
+               			'&nbsp;&nbsp;&nbsp;'+
+               			'<button id="can_'+inc+'" class="btn btn-white" onclick="cn_btn(this.id)">'+"Cancel"+'</button>'+
+               			'<br>'+
+               			'</div>'
+								);
+}
+
+function vg_btn(id){
+var temp = id.split("_")
+var id = temp[1];
+		$('#tpe_id'+id).val("VEG");
+		$('#nv_'+id).addClass("btn-outline");
+		$('#g_'+id).addClass("btn-outline");
+		$('#vg_'+id).removeClass("btn-outline");		
+}
+function nov_btn(id){
+var temp = id.split("_")
+var id = temp[1];
+		$('#tpe_id'+id).val("NON-VEG");
+		$('#g_'+id).addClass("btn-outline");
+		$('#vg_'+id).addClass("btn-outline");
+		$('#nv_'+id).removeClass("btn-outline");		
+}
+function g_btn(id){
+var temp = id.split("_")
+var id = temp[1];
+		$('#tpe_id'+id).val("GLUTEN FREE");
+		$('#nv_'+id).addClass("btn-outline");
+		$('#vg_'+id).addClass("btn-outline");
+		$('#g_'+id).removeClass("btn-outline");		
+}
+
+function sv_btn(inc,id){
+var temp = inc.split("_")
+var inc = temp[1];
+var cat_id = $('#menu_id'+id).val();
+var rest_id = $('#rest_id').val();
+var cat_name = $('#menu_tle'+id).val();
+var it_name = $('#itm_name'+inc).val();
+var it_price = $('#itm_price'+inc).val();
+var it_type = $('#tpe_id'+inc).val();
+
+if(it_name=='') {
+	alert('Please insert menu name!!!');
+	return false;
+}else if(it_price=='') {
+	alert('Please insert menu price!!!');
+	return false;
+}
+else if (it_price<0) {
+	alert("Menu price is invalid!!!");
+	return false;
+}
+else if(isNaN(it_price)){
+	alert("Menu price is invalid!!!");
+	return false;
+}
+else if(it_type=='') {
+	alert('Please select menu type!!!');
+	return false;
+}
+
+$.ajax({ 				          
+            type : 'POST',
+            url : '/add_menu_details/',
+            data : {'cat_id':cat_id,'rest_id':rest_id,'cat_name':cat_name,'it_name':it_name,'it_price':it_price,'it_type':it_type},                              
+ 				success: function(response){
+ 				alert("Menu item added!");
+	        			$('#share'+id).append(response.share);
+	        			$('#menu_frm'+inc).html('');
+						
+		      },
+           error: function(response){
+           			alert("Error!");
+           },        
+
+        });
+
+}
+
+function cn_btn(id){
+
+var temp = id.split("_")
+var id = temp[1];
+$('#menu_frm'+id).html('');
+}
+
+$('#user_img').click(function(){
+	$('#upload_image').modal('show');
+});
+
+$('#btn_ok_upload').click(function(){
+
+  var input = document.getElementById("admin_image");  	  
+    file = input.files[0];
+	 var formData= new FormData();  
+  	 if(file != undefined){ 	 
+    	if(!!file.type.match(/image.*/)){
+      	formData.append("image", file);    
+      	formData.append("user_name",$('#login_user_name').val());      	
+      	$.ajax({
+    			type : 'POST',
+    			url : '/upload-admin-image/',
+    			data : formData,
+    			cache: false,
+    			processData: false,
+    			contentType: false,
+    			success: function(response) {
+    				console.log(response);
+        			if(response.success=='true'){
+        				$('#user_img').attr('src',response.image);
+        			}
+        			if(response.success=='error'){
+        				alert('error!')
+        			}
+    			},
+    			error: function(response){
+            console.log(response);
+           			alert("ajax Error!");
+           }, 
+		});
+    }else{
+      alert('Not a valid image!');
+    }
+  }else{
+    //alert('Input something!');
+  } 
+});
+</script>
+
+</body>
+</html>

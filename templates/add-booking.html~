@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+ <title>DealMonk | Add Booking</title>
+
+ <link href="{%static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+ <link href="{%static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+<link href="{%static 'assets/css/plugins/datapicker/datepicker3.css'%}" rel="stylesheet">
+ <!-- Toastr style -->
+ <link href="{%static 'assets/css/plugins/toastr/toastr.min.css'%}" rel="stylesheet">
+
+ <link href="{%static 'assets/css/animate.css'%}" rel="stylesheet">
+ <link href="{%static 'assets/css/style.css'%}" rel="stylesheet">
+<script type="text/javascript" >
+$(document).ready(function () {
+    $('#example1').datepicker({
+      format: "dd/mm/yyyy"
+    });
+
+   $('.dp').on('change', function(){
+       $('.datepicker').hide();
+   });
+
+});
+
+</script>
+
+
+</head>
+
+<body>
+
+ <div id="wrapper">
+
+ <nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+<ul class="nav" id="side-menu">
+ <li class="nav-header">
+     <div class="dropdown profile-element"> <span>
+             <img alt="image" class="img-circle" src="{%static 'assets/img/profile_small.jpg'%}" width="48" height="48"/>
+              </span>
+         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Restaurant Owner</strong>
+              </span> <span class="text-muted text-xs block">Role <b class="caret"></b></span> </span> </a>
+         <ul class="dropdown-menu animated fadeInRight m-t-xs">
+             <li><a href="profile.html">Profile</a></li>
+             <li><a href="contacts.html">Contacts</a></li>
+             <li><a href="mailbox.html">Mailbox</a></li>
+             <li class="divider"></li>
+             <li><a href="/sign-out-admin/">Logout</a></li>
+         </ul>
+     </div>
+     <div class="logo-element">
+         DM+
+     </div>
+ </li>
+ <li >
+     <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+ </li>
+ <li class="active">
+     <a href="/view-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+ </li>
+ <li>
+     <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+ </li>
+ 
+ <li>
+     <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+ </li>
+<!--  <li>
+  <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Account settings</span></a>
+ </li>
+ <li>
+  <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Contact US</span></a>
+ </li> -->
+ <!-- <li>
+     <a href="#"><i class="fa fa-usd"></i> <span class="nav-label">Payment</span> </a>
+ </li>
+  <li>
+     <a href="#"><i class="fa fa-envelope-o"></i> <span class="nav-label">Email</span></a>
+ </li> 
+ <li>
+     <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">Promote @DM</span></a>
+ </li>
+ <li>
+     <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Redeem</a>
+ </li> -->
+</ul>
+  </div>
+ </nav>
+
+  <div id="page-wrapper" class="gray-bg">
+  <div class="row border-bottom">
+  <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+  <div class="navbar-header">
+<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+<form role="search" class="navbar-form-custom" action="search_results.html">
+ <div class="form-group">
+     <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+ </div>
+</form>
+  </div>
+<ul class="nav navbar-top-links navbar-right">
+ <li>
+     <span class="m-r-sm text-muted welcome-message">Welcome to DealMonk</span>
+ </li>
+ <li class="dropdown">
+     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+         <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+     </a>
+     <ul class="dropdown-menu dropdown-messages">
+         <li>
+             <div class="dropdown-messages-box">
+                 <a href="profile.html" class="pull-left">
+                     <img alt="image" class="img-circle" src="{%static 'assets/img/a7.jpg'%}">
+                 </a>
+                 <div>
+                     <small class="pull-right">46h ago</small>
+                     <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                     <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                 </div>
+             </div>
+         </li>
+         <li class="divider"></li>
+         <li>
+             <div class="dropdown-messages-box">
+                 <a href="profile.html" class="pull-left">
+                     <img alt="image" class="img-circle" src="{%static 'assets/img/a4.jpg'%}">
+                 </a>
+                 <div>
+                     <small class="pull-right text-navy">5h ago</small>
+                     <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                     <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                 </div>
+             </div>
+         </li>
+         <li class="divider"></li>
+         <li>
+             <div class="dropdown-messages-box">
+                 <a href="profile.html" class="pull-left">
+                     <img alt="image" class="img-circle" src="{%static 'assets/img/profile.jpg'%}">
+                 </a>
+                 <div>
+                     <small class="pull-right">23h ago</small>
+                     <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                     <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                 </div>
+             </div>
+         </li>
+         <li class="divider"></li>
+         <li>
+             <div class="text-center link-block">
+                 <a href="mailbox.html">
+                     <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                 </a>
+             </div>
+         </li>
+     </ul>
+ </li>
+ <li class="dropdown">
+     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+         <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+     </a>
+     <ul class="dropdown-menu dropdown-alerts">
+         <li>
+             <a href="mailbox.html">
+                 <div>
+                     <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                     <span class="pull-right text-muted small">4 minutes ago</span>
+                 </div>
+             </a>
+         </li>
+         <li class="divider"></li>
+         <li>
+             <a href="profile.html">
+                 <div>
+                     <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                     <span class="pull-right text-muted small">12 minutes ago</span>
+                 </div>
+             </a>
+         </li>
+         <li class="divider"></li>
+         <li>
+             <a href="grid_options.html">
+                 <div>
+                     <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                     <span class="pull-right text-muted small">4 minutes ago</span>
+                 </div>
+             </a>
+         </li>
+         <li class="divider"></li>
+         <li>
+             <div class="text-center link-block">
+                 <a href="notifications.html">
+                     <strong>See All Alerts</strong>
+                     <i class="fa fa-angle-right"></i>
+                 </a>
+             </div>
+         </li>
+     </ul>
+ </li>
+ <li>
+     <a href="/sign-out-admin/">
+         <i class="fa fa-sign-out"></i> Log out
+     </a>
+ </li>
+ <li>
+     <a class="right-sidebar-toggle"  data-toggle="tab" href="#tab-3">
+         <i class="fa fa-cog"></i>
+     </a>
+ </li>
+</ul>
+  </nav>
+  </div>
+<div class="row wrapper border-bottom white-bg page-heading">
+ <div class="col-lg-9">
+                   <h2>             </button>Add Booking</h2>
+                </div>
+<div class="col-lg-3 pull-right"  style="padding-top:20px;">
+  
+  <a href="/booking-confirmation/" type="submit" class="btn btn-primary btn-sm" style="margin-left:95px" >Confirm</a>
+<a href="/bookings/" type="submit" class="btn btn-primary btn-sm" >Cancel</a>
+ 
+ </div>
+
+</div>
+  <div class="wrapper wrapper-content  animated fadeInRight">
+<div class="row">
+ <div class="col-sm-12">
+     <div class="ibox">
+     <div class="ibox-title">
+                        <h5>Add Booking Details</h5>
+                        <div class="ibox-tools">
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+          <div class="ibox-content" style="padding-bottom: 130px;">
+             <div class="row">
+                                 <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Name</label>
+                                   <input type="name" placeholder="Name" class="form-control"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                &nbsp;
+                                </div>
+                                  <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Email</label>
+                                  <input type="email" placeholder="Email ID" class="form-control"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+                                    </div>
+                                </div>
+                                  </div>
+                                  <div class="row">
+                                 <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Contact Number</label>
+                                   <input type="tel" placeholder="Contact number" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                &nbsp;
+                                </div>
+                                <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Covers</label>
+                                   <input type="number" placeholder="Covers" class="form-control"> 
+                                    </div>
+                                </div>
+                                
+                                  </div>
+                                  <div class="row">
+                                 <div class="col-lg-5">
+                                    <div class="form-group">
+                                <label class="font-group">Date</label>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i>
+                                    </span><input type="date" class="form-control" id="datepicker">
+                                </div>
+                            </div>
+                                    
+                                </div>
+                                <div class="col-lg-1">
+                                &nbsp;
+                                </div>
+                                  <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Time</label>
+                                  <input type="time" placeholder="Checkin time" class="form-control"> 
+                                </div>
+                                  </div>
+                                  
+                                </div>
+                                <!-- <div class="row">
+                                 <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Offer</label>
+                                <select class="form-control m-b" name="account">
+                                        <option>20%</option>
+                                        <option>30%</option>
+                                        <option>40%</option>
+                                        <option>1+1 Drinks</option>
+                                    </select>
+										</div>
+                                </div>
+                                </div> -->
+                                <div class="row">
+                                 <div class="col-lg-5">
+                                <div class="form-group"><label class="control-label">Coupon code</label>
+                                <select class="form-control m-b" name="account">
+                                        <option>CC 02121</option>
+                                        <option>CC 02122</option>
+                                        <option>CC 02123</option>
+                                        <option>CC 02124</option>
+                                    </select>
+										</div>
+                                </div>
+                                </div>
+             
+         </div>
+     </div>
+ </div>
+</div>
+  </div>
+  <div class="footer">
+ <div>
+  <strong>Copyright</strong> DealMonk &copy; 2015-2016
+ </div>
+</div>
+
+  </div>
+  </div>
+
+
+
+ <!-- Mainly scripts -->
+ <script src="{%static 'assets/js/jquery-2.1.1.js'%}"></script>
+ <script src="{%static 'assets/js/bootstrap.min.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/metisMenu/jquery.metisMenu.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/datapicker/bootstrap-datepicker.js'%}"></script>
+ <!-- Custom and plugin javascript -->
+ <script src="{%static 'assets/js/inspinia.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/pace/pace.min.js'%}"></script>
+ <script type="text/javascript" >
+
+ $('#datepicker').datepicker();
+ $(function(){
+				$('#datepicker').datepicker();
+		 });
+ $("#datepicker").on("changeDate", function(event) {
+   		$(this).datepicker('hide');
+   });
+</script>
+
+</body>
+</html>

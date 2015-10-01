@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+ <title>DealMonk | Add Restaurant Branch</title>
+
+ <link href="{%static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+ <link href="{%static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+<link href="{%static 'assets/css/plugins/datapicker/datepicker3.css'%}" rel="stylesheet">
+ <!-- Toastr style -->
+ <link href="{%static 'assets/css/plugins/toastr/toastr.min.css'%}" rel="stylesheet">
+ <link rel="stylesheet" href="{%static 'assets/css/bootstrap-multiselect.css'%}" type="text/css"/>
+ <link href="{%static 'assets/css/animate.css'%}" rel="stylesheet">
+ <link href="{%static 'assets/css/style.css'%}" rel="stylesheet">
+  <link href="{%static 'css/jquery.fileupload-ui.css'%}" rel="stylesheet">
+    <link href="{%static 'css/jquery.fileupload.css'%}" rel="stylesheet">
+    <link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+
+<style>
+    .multiselect {
+        width: 200px;
+    }
+    .selectBox {
+        position: relative;
+    }
+    .selectBox select {
+        width: 100%;
+        #font-weight: bold;
+    }
+    .overSelect {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+    }
+    #checkboxes {
+        display: none;
+        border: 2px #dadada solid;
+    }
+    #checkboxes label {
+        display: block;
+    }
+    #checkboxes label:hover {
+        background-color:#f90;
+    }
+</style>
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 35%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>
+
+</head>
+
+<body>
+
+ <div id="wrapper">
+
+ <nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+<ul class="nav" id="side-menu">
+ <li class="nav-header">
+     <div class="dropdown profile-element"> 
+     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    			<span>
+                            	<img alt="image" id='user_img' class="img-circle" src="{{user_img}}" width=48 height=48/>
+                            </span>
+                     </a>
+         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <label class="font-bold" style="text-transform:capitalize;">{{request.session.full_name}}</label>
+                             </span></span> </a>
+<!--          <ul class="dropdown-menu animated fadeInRight m-t-xs">
+             <li><a href="profile.html">Profile</a></li>
+             <li><a href="contacts.html">Contacts</a></li>
+             <li><a href="mailbox.html">Mailbox</a></li>
+             <li class="divider"></li>
+             <li><a href="/sign-out-admin/">Logout</a></li>
+         </ul> -->
+     </div>
+     <div class="logo-element">
+         DM+
+     </div>
+ </li>
+ <li >
+     <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+ </li>
+ <li>
+     <a href="/load-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+ </li>
+ <li>
+     <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+ </li>
+ 
+ <li  class="active">
+     <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+ </li>
+ <li>
+                    <a href="/restaurant_menu/"><i class="fa fa-book"></i> <span class="nav-label">Menu</span></a>
+                </li>
+ <li>
+		<a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Account Settings</span></a>
+ </li>
+
+</ul>
+  </div>
+ </nav>
+
+  <div id="page-wrapper" class="gray-bg">
+  <div class="row border-bottom">
+  <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+  <div class="navbar-header">
+<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+  </div>
+<ul class="nav navbar-top-links navbar-right">
+ <li>
+     <span class="m-r-sm text-muted welcome-message" style="text-transform:capitalize;">Welcome {{ request.session.full_name}}</span>
+ </li>
+ <li>
+     <a href="/sign-out-admin/">
+         <i class="fa fa-sign-out"></i> Log out
+     </a>
+ </li>
+</ul>
+  </nav>
+  </div>
+  <form name="restaurantbranchform" onsubmit="return validate_cuisine();" action="/new-restaurant-branch/" method="post" enctype="multipart/form-data">
+<div class="row wrapper border-bottom white-bg page-heading">
+ <div class="col-lg-8">
+                   <h2>Add Restaurant Branch</h2>
+                </div>
+<div class="col-lg-4"  style="padding-top:20px;text-align:right;">
+  <button id="save" type="submit" class="btn btn-primary btn-sm" style="margin-left:155px;" >Save</button>
+  <a href="/my-restaurantform/" class="btn btn-primary btn-sm">Cancel</a>
+ 
+ </div>
+
+</div>
+  <div class="wrapper wrapper-content  animated fadeInRight">
+<div class="row">
+ <div class="col-sm-12">
+     <div class="ibox">
+     {{error}}
+     <div class="ibox-title">
+                        <h5>Add Branch Details</h5><br><br>
+                        <label class="control-label">* marked fields are mandatory</label>
+                    </div>
+          <div class="ibox-content" style="padding-bottom: 00px;">
+					<div class="row">		
+					<div class="col-md-6">								
+               <div class="form-group"><label class="control-label">*Branch Name</label>
+              <input required name="branch_name" type="name" placeholder="Branch Name" class="form-control"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+               </div>
+
+					 <div class="form-group"><label class="control-label">*Cuisine</label>
+					 <div>
+               <select id="select_cuisine_rb" name="select_cuisine_rb" class="form-control" multiple="multiple">
+					{% for cuisine in cuisine_list %}            									
+					<option value="{{cuisine.fact_id}}">{{cuisine.fact_cuisine}}</option>											
+					{% endfor %}   
+					</select>
+               </div>
+    				</div>  
+					
+					<div class="form-group"><label class="control-label">*Contact Number</label>
+              <input required name="branch_contact" pattern="[0-9]{10}" type="name" placeholder="Contact Number" class="form-control" title="Only letters allowed"> <!-- <span class="help-block m-b-none">Example block-level help text here.</span> -->
+               </div> 
+
+                           
+               
+					<div id="op-hours-rb" class="form-group">
+                                <label class="control-label">*Hours Of Operation:</label><br><br>
+                                <div>
+                                    <input name="rb-hour-check" id="hour-check" type="checkbox" onchange="valueChanged()">&nbsp&nbsp<label class="control-label">24 hours</label></input><br><br>
+                                    </div>
+                                <div class="row">
+                                <div class="col-md-2">
+                                <label class="control-label">Day:</label>
+                                </div>
+                                <div class="col-md-5">
+                                <label class="control-label">from</label>
+                               	<!-- <input name="rest_open_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select required name="branch_day_from" id="rb_day_from" class="op-hours ui-timepicker-select form-control timings-rb"><option value=""><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>
+            							
+            							<div class="col-md-5">
+            							<label class="control-label">to</label>
+                                <!-- <input name="rest_close_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select required name="branch_day_to" id="rb_day_to" class="op-hours ui-timepicker-select form-control timings-rb"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+                                <!-- <script>
+                							$(function() {
+                    								$('#.time').timepicker();
+                							});
+            							</script> -->
+            							</div>            							
+                                </div>
+                                <br>
+                                <div class="row">
+                                <div class="col-md-2">
+                                <label class="control-label">Evening:</label>
+                                </div>
+                                <div class="col-md-5">
+                                <label class="control-label">from</label>
+                               	<!-- <input name="rest_open_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select name="branch_eve_from" id="rb_eve_from" class="op-hours ui-timepicker-select form-control timings-rb"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>
+            							
+            							<div class="col-md-5">
+            							<label class="control-label">to</label>
+                                <!-- <input name="rest_close_day" type="text" class="form-control time" data-scroll-default="6:00am" autocomplete="off"> -->
+                                <select name="branch_eve_to" id="rb_eve_to" class="op-hours ui-timepicker-select form-control timings-rb"><option value=""></option><option value="00:00">12:00 AM</option><option value="00:30">12:30 AM</option><option value="01:00">1:00 AM</option><option value="01:30">1:30 AM</option><option value="02:00">2:00 AM</option><option value="02:30">2:30 AM</option><option value="03:00">3:00 AM</option><option value="03:30">3:30 AM</option><option value="04:00">4:00 AM</option><option value="04:30">4:30 AM</option><option value="05:00">5:00 AM</option><option value="05:30">5:30 AM</option><option value="06:00">6:00 AM</option><option value="06:30">6:30 AM</option><option value="07:00">7:00 AM</option><option value="07:30">7:30 AM</option><option value="08:00">8:00 AM</option><option value="08:30">8:30 AM</option><option value="09:00">9:00 AM</option><option value="09:30">9:30 AM</option><option value="10:00">10:00 AM</option><option value="10:30">10:30 AM</option><option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option>
+                                <option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option><option value="22:00">10:00 PM</option><option value="22:30">10:30 PM</option><option value="23:00">11:00 PM</option><option value="23:30">11:30 PM</option><option value="23:59">11:59 PM</option></select>
+            							</div>            							
+                                </div>
+                                </div>
+                                
+         					</div>                                      
+			               <div class="col-md-6">
+			               <!-- <div class="form-group"><label class="control-label">Image Upload</label>	
+			               <p></p>		               
+        <span class="btn btn-primary btn-sm">
+        	<input type="file" name="rb_image" size="50">
+        </span>                         
+               </div> -->
+					<div class="form-group"><label class="control-label">*Address Line 1</label>
+               <input required name="branch_addr1" id="rb-addrl1" type="name" placeholder="Address Line 1" class="form-control">
+               <br>
+               <label class="control-label">Address Line 2</label>
+               <input name="branch_addr2" id="rb-addrl2" type="name" placeholder="Address Line 2" class="form-control">
+               <br>
+               <label class="control-label">*Area</label>
+               <input required name="branch_area" id="rb-area" type="name" placeholder="Area" class="form-control">
+               <br>
+               <div class="row">
+               <div class="col-md-6">
+               <label class="control-label">*City</label>
+               <select required class="form-control" id="rb-city" name="branch_city" onchange="rb_fact_link()">
+               <option value=""></option>
+               {% for city in area_list %}
+               <option>{{city.fact_city}}</option>
+					{% endfor %}                                  
+               </select>
+               </div>
+               <div class="col-md-6">
+               <label class="control-label">*State</label>
+               <input required id="rb-state" name="branch_state" pattern="[A-Za-z]+" type="name" placeholder="State" class="form-control" readonly="readonly">
+					</div>
+					</div>
+					<br>
+					<label class="control-label">*Pincode</label>
+               <input required name="branch_pincode" id="rb-pincode" pattern="[0-9]+{10}" type="text" placeholder="Pincode" class="form-control">	
+               </div>                                    
+               </div>
+               <br>
+               <div hidden class="col-md-3">
+               <label class="control-label">Latitude</label>
+               <input class="form-control" id="lat"  name="lat_txt"  readonly="readonly">               
+               </div>
+               <div hidden class="col-md-3">
+               <label class="control-label">Longitude</label>
+               <input readonly="readonly" id="lng"  type="name" name="lng_txt"  class="form-control">             
+               </div>
+				   <div class="row" style="padding: 30px">
+               <div class="col-lg-6" id="mapCanvas"  style="height:30vh; ">
+               </div>
+               </div> 
+               </div>    
+                       
+     </div>
+ </div>
+</div>
+  </div>
+  </form>
+    
+			                
+          	<div class="modal fade" id="upload_image" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">DealMonk</h4>
+        								</div>
+        								   
+        							<!-- 	<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data" action="/upload-admin-image/">  --> 	
+        									<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Select Image.</p>
+							                       <!--  <input name="image_load" type="file" class="form-control" id="exercisevideo"  accept=accept=".png, .jpg, .jpeg" /> -->
+															 <input type="file" id='admin_image' name="pic" accept=".png, .jpg, .jpeg">	
+															 <input type="hidden" id="login_user_name" name="user_name" value="{{request.session.login_user}}"></input>	
+															 				                    
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_upload"  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_ok_upload" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  					
+  					  					<div class="modal fade" id="update_add" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">Update Address</h4>
+        								</div>
+        								  	
+        									<form name="updateAddForm" id="updateAddForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Are you sure you want to change the restaurant address to the one chosen in the map:</p>
+							                        <p id="add_msg"></p>            
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_update" data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_update_add" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  			 
+ 
+  <div class="footer">
+ <div>
+  <strong>Copyright</strong> DealMonk &copy; 2015-2016
+         </div>
+ </div>
+</div>
+
+  </div>
+  </div>
+
+
+
+ <!-- Mainly scripts -->
+ <script src="{%static 'assets/js/jquery-2.1.1.js'%}"></script>
+ <script src="{%static 'assets/js/bootstrap.min.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/metisMenu/jquery.metisMenu.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/datapicker/bootstrap-datepicker.js'%}"></script>
+ <!-- Custom and plugin javascript -->
+ <script src="{%static 'assets/js/inspinia.js'%}"></script>
+ <script src="{%static 'assets/js/plugins/pace/pace.min.js'%}"></script>
+ <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+ <script src="{%static 'assets/js/bootstrap-multiselect.js'%}"></script>
+ <script type="text/javascript" >
+
+function rb_fact_link()
+{	
+	var city=$('#rb-city :selected').text();
+	if(city){
+	$.ajax({ 				          
+            type : 'GET',
+            url : '/map-state/',
+            data : {'city': city },                              
+ 				success: function(data) { 
+ 				if(data)
+ 				{					                                    
+             document.getElementById('rb-state').value=data.state;
+             }
+                          
+           },
+           error: function(response){
+           			alert("Error!");
+           },        
+
+        });
+        }
+    else{
+    	document.getElementById('rb-state').value="";
+    }
+}
+
+ $('#datepicker').datepicker();
+ $(function(){
+				$('#datepicker').datepicker();
+		 });
+
+function valueChanged()
+{
+    if($('#hour-check').is(":checked"))
+    $(".op-hours").prop('disabled', true);   
+        //$("#").hide(500);
+    else
+        $(".op-hours").prop('disabled', false);    
+}
+		 
+</script>
+
+<script type="text/javascript">
+var exists = false;
+
+function validate_rb(){
+   
+var rb_day_from= $('#rb_day_from :selected').val();
+console.log(rb_day_from);
+var rb_day_to= $('#rb_day_to :selected').val();
+console.log(rb_day_to);
+var rb_eve_from= $('#rb_eve_from :selected').val();
+console.log(rb_eve_from);
+var rb_eve_to= $('#rb_eve_to :selected').val();
+console.log(rb_eve_to);
+
+if(rb_eve_from =="" && rb_eve_to =="")
+{
+return true;
+}
+else if(rb_day_to ==rb_eve_from){
+return true;
+}
+else if(rb_eve_from =="00:00" && rb_eve_to =="00:00")
+{
+return true;
+}
+else if(rb_eve_from =="" && rb_eve_to !=""){
+alert("Please select Restaurant Branch Evening-Start time");
+return false;
+}
+else if(rb_eve_from !="" && rb_eve_to ==""){
+alert("Please select Restaurant Branch Evening-End time");
+return false;
+}
+else if(rb_day_from > rb_day_to){
+	alert("Restaurant Branch Day-Start time cannot be greater than End time!");
+	return false;	
+	//$("#edit_restaurant_branch").modal('show');	
+}
+else if(rb_eve_from > rb_eve_to){
+	alert("Restaurant Branch Evening-Start time cannot be greater than End time!");
+	return false;	
+	//$("#edit_restaurant_branch").modal('show');
+}
+else if(rb_day_from == rb_day_to){
+	alert("Restaurant Branch Evening-Start time cannot be greater than End time!");
+	return false;
+	//$("#edit_restaurant_branch").modal('show');
+}
+else if(rb_eve_from == rb_eve_to){
+	alert("Restaurant Branch Evening-Start time cannot be greater than End time!");
+	return false;
+	//$("#edit_restaurant_branch").modal('show');
+}
+else if(rb_eve_from < rb_day_to){
+	alert("Restaurant Branch Evening-Start time cannot be greater than End time!");
+	return false;
+	//$("#edit_restaurant_branch").modal('show');
+}
+else{
+	return true;
+}
+};
+
+var exists = false;
+
+$('#btn_update_add').click(function(){
+	var str = $('#add_msg').text();
+      var res = str.split(",");
+  var count=res.length;
+  var st_pin=res[count-2].split(" ");
+  if(st_pin.length==3){
+  var state = st_pin[1];
+  var pin = st_pin[2];
+  }else{
+  var state = st_pin[1];
+  var pin = st_pin[3];
+  }
+	var c=res[count-3];
+	var city = c;
+	//alert(city);
+  var area = res[count-4].trim();
+  var addr1 = res[0].trim();
+  var addr2 = res[1].trim();
+  
+  	check_val=check_value(city);
+	if (exists==false){
+		alert("Please select valid city form city list");
+		$('#update_add').modal('hide');
+		return false;
+	}else{
+	$("#rb-addrl1").val(addr1);
+    $("#rb-addrl2").val(addr2);
+	$("#rb-area").val(area);
+	$('#rb-state').val(state);
+	$("#rb-pincode").val(pin);
+	//$('#rb-city :selected').text(city);
+	$('#rb-city').val(city.trim());
+	return true;	
+	}
+  //alert(addr1);
+});
+
+$('#btn_cancel_update').click(function(){
+	$('#update_add').modal('hide');
+	//location.reload();
+});
+   
+   
+function check_value(city){
+var city=city.trim();
+console.log(city);
+console.log('---------------------');
+exists=false;
+$('#rb-city option').each(function(){
+console.log(this.value);
+    if ((this.value).toString() == city) {   
+        exists = true;
+        return false;
+    }    
+});
+return false;
+}  
+
+</script>
+
+<script type="text/javascript">
+/*------------------------------GMAP-------------------------------*/
+
+$(document).ready(function(){
+	
+	 $('#select_cuisine_rb').multiselect({
+        includeSelectAllOption: true
+    });   
+   
+    validates();
+    $('#rb-addrl1,#rb-addrl2, #rb-area, #rb-city, #rb-state,#rb-pincode').keyup(validates);
+
+});
+
+var geocoder = new google.maps.Geocoder();
+var map;
+var marker;
+var infoWindow;
+function geocodePosition(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses,responses[0].formatted_address);
+    } else {
+      updateMarkerAddress("",'Cannot determine address at this location.');
+    }
+  });
+}
+
+function geocodePosition1(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+    $('#add_msg').text(responses[0].formatted_address);
+    $("#update_add").modal('show');
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function updateMarkerStatus(str) {
+  //document.getElementById('markerStatus').innerHTML = str;
+}
+
+function updateMarkerPosition(latLng) {
+
+  $("#lat").val(latLng.lat());
+  $("#lng").val(latLng.lng());
+}
+
+function updateMarkerAddress(response,str) {
+  //document.getElementById('address').innerHTML = str;
+  infoWindow.setContent(str);
+}
+
+function initialize() {
+  var latLng = new google.maps.LatLng(-34.397, 150.644);
+ map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    zoom: 8,
+    //center: latLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+     infoWindow = new google.maps.InfoWindow({map: map});
+     var latlngbounds = new google.maps.LatLngBounds();
+  marker = new google.maps.Marker({
+    position: latLng,
+    title: 'Point A',
+    map: map,
+    draggable: true
+  });
+  google.maps.event.addListener(map, 'click', function (e) {
+      $("#lat").val(e.latLng.lat());
+      $("#lng").val(e.latLng.lng());
+
+      placeMarker(e.latLng, map);
+      infoWindow.open(map, this);
+      map.setZoom(8);
+
+          });
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('You are here.');
+      map.setCenter(pos);
+      //placeMarker2(position,map);
+
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+  // Update current position info.
+  //updateMarkerPosition(latLng);
+  //geocodePosition(latLng);
+
+
+  google.maps.event.addListener(marker, 'click', function() {
+      geocodePosition(marker.getPosition());
+        infoWindow.open(map, this);
+        map.setZoom(8);
+    });
+  // Add dragging event listeners.
+  google.maps.event.addListener(marker, 'dragstart', function() {
+    //updateMarkerAddress('Dragging...');
+  });
+
+  google.maps.event.addListener(marker, 'drag', function() {
+    //updateMarkerStatus('Dragging...');
+    updateMarkerPosition(marker.getPosition());
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+    //updateMarkerStatus('Drag ended');
+    geocodePosition(marker.getPosition());
+    infoWindow.open(map, this);
+    map.setZoom(8);
+  });
+}
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.');
+    }
+function placeMarker(position, map) {
+    if ( marker ) {
+        marker.setPosition(position);
+        geocodePosition(marker.getPosition());
+      } else {
+        marker = new google.maps.Marker({
+          position: position,
+          map: map,
+         title: 'Drag Me!',
+         draggable: true
+        });
+      }
+    map.panTo(position);
+  }
+  function placeMarker2(position, map) {
+    if ( marker ) {
+        marker.setPosition(position);
+        
+      } else {
+        marker = new google.maps.Marker({
+          position: position,
+          map: map,
+         title: 'Drag Me!',
+         draggable: true
+        });
+      }
+    map.panTo(position);
+  }
+
+function codeAddress() {
+
+    var geocoder = new google.maps.Geocoder();
+    var lat='';
+    var lng='';
+    var city_state_zip =$('#rb-city :selected').text()+", "+$("#rb-state").val()+", "+$("#rb-pincode").val();
+    var street_address = $("#rb-addrl1").val()+" "+$("#rb-addrl2").val()+", "+$("#rb-area").val();
+    var address = street_address + " " + city_state_zip;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+       lat = results[0].geometry.location.lat(); //getting the lat
+       $('#lat').val(lat);
+       lng = results[0].geometry.location.lng(); //getting the lng
+       $('#lng').val(lng);
+       map.setCenter(results[0].geometry.location);
+		$("#lat").val(lat);
+      $("#lng").val(lng);
+       placeMarker(results[0].geometry.location,map);
+     } else {
+            //alert("Geocode was not successful for the following reason: " + status);
+            }
+     });
+     var latlng = new google.maps.LatLng(lat, lng);
+     var myOptions = {
+         zoom: 4,
+         center: latlng,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+     }
+
+ }
+
+function validates(){
+    if ($('#rb-addrl1').val().length   > 0  && $('#rb-area').val().length   >   0   &&
+        $('#rb-city :selected').text().length  >   0   &&
+        $('#rb-state').val().length    >   0 && $('#rb-pincode').val().length    >   0) {
+        codeAddress();
+    }
+
+}
+function GetAddress() {
+    var lat = parseFloat();
+    var lng = parseFloat(document.getElementById("txtLongitude").value);
+    var latlng = new google.maps.LatLng(lat, lng);
+
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+
+                infoWindow.setContent(str);
+            }
+        }
+    });
+}
+// Onload handler to fire off the app.
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+/*------------------------------GMAP_END------------------------------------*/
+</script>
+
+<script>
+
+    var expanded = false;
+    function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
+</script>
+
+
+
+<script type="text/javascript">
+function validate_cuisine(){
+var cuisine = $('#select_cuisine_rb').val();
+  if(cuisine==null) {
+    alert('Please select cuisine');
+    return false;
+  }else if ($('#hour-check').is(":checked")) {
+  	return true;
+  }else {
+  	return validate_rb();
+  }
+}
+</script>
+
+<script type="text/javascript" >
+$('#user_img').click(function(){
+	$('#upload_image').modal('show');
+});
+
+$('#btn_ok_upload').click(function(){
+
+  var input = document.getElementById("admin_image");  	  
+    file = input.files[0];
+	 var formData= new FormData();  
+  	 if(file != undefined){ 	 
+    	if(!!file.type.match(/image.*/)){
+      	formData.append("image", file);    
+      	formData.append("user_name",$('#login_user_name').val());      	
+      	$.ajax({
+    			type : 'POST',
+    			url : '/upload-admin-image/',
+    			data : formData,
+    			cache: false,
+    			processData: false,
+    			contentType: false,
+    			success: function(response) {
+    				console.log(response);
+        			if(response.success=='true'){
+        				$('#user_img').attr('src',response.image);
+        			}
+        			if(response.success=='error'){
+        				alert('error!')
+        			}
+    			},
+    			error: function(response){
+            console.log(response);
+           			alert("ajax Error!");
+           }, 
+		});
+    }else{
+      alert('Not a valid image!');
+    }
+  }else{
+    //alert('Input something!');
+  } 
+});
+</script>
+
+</body>
+</html>

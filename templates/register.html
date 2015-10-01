@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dealmonk | Register</title>
+
+    <link href="{%static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{%static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/css/plugins/iCheck/custom.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/css/animate.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/css/style.css'%}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown" style="padding:0px">
+        <div>
+            <div>
+
+                <img alt="image" class="img-circle" src="{%static 'assets/img/dm_logo.png'%}" style="height: 250px;">
+
+            </div>
+            <!-- <h3>Register to DealMonk</h3> -->
+            <p>Register to see your restaurant in action.</p>
+            <form class="m-t" role="form" action="/admin-register/" method="POST" onclick="checkPasswordMatch();">
+            <p>{{ errors.error_message }}	{{error_msg}}	</p>
+            <div class="registrationFormAlert" id="divCheckPasswordMatch">
+				</div>            
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <input name="fname" type="text" class="form-control" placeholder="First Name" required="">
+                </div>
+                
+                <div class="col-md-6 form-group">
+                    <input name="lname" type="text" class="form-control" pattern="[A-Za-z]+" placeholder="Last Name" required="">
+                </div>
+             </div>   
+                <div class="form-group">
+                    <input name="email" type="email" class="form-control" placeholder="Email" required="">
+                </div>
+                <div class="form-group">
+                    <input name="contact" type="text" class="form-control" pattern="[0-9]{10}" placeholder="Contact Number" required="">
+                </div>
+                <div class="form-group">
+                    <input id="txtNewPassword" name="pass" type="password" class="form-control" placeholder="Password" required="">
+                </div>
+                <div class="form-group">
+                    <input id="txtConfirmPassword" name="cpass" type="password" class="form-control" placeholder="Confirm Password" required="">
+                </div>
+                <!-- <button type="submit" class="btn btn-white block full-width m-b">Register</button> -->
+												
+						<button type="submit" class="btn btn-primary block full-width m-b">Register</button>
+						                
+                <p class="text-muted text-center">Already have an account?</p>
+                <a href="/" type="submit" class="btn btn-primary block full-width m-b">Sign in</a>
+            </form>
+            <div class="row">
+            <div class="col-md-6">
+                Copyright DealMonk
+            </div>
+            <div class="col-md-6 text-right">
+               <small>© 2015-2016</small>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{%static 'assets/js/jquery-2.1.1.js'%}"></script>
+    <script src="{%static 'assets/js/bootstrap.min.js'%}"></script>
+    <!-- iCheck -->
+    <script src="{%static 'assets/js/plugins/iCheck/icheck.min.js'%}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+
+    <script type="text/javascript" >
+		function checkPasswordMatch() {
+   	 var password = $("#txtNewPassword").val();
+    	var confirmPassword = $("#txtConfirmPassword").val();
+
+    	if (password != confirmPassword)
+        $("#divCheckPasswordMatch").html("Passwords do not match!");
+    	else
+        $("#divCheckPasswordMatch").html("Passwords match.");	
+		}
+	 </script>    
+    
+</body>
+
+</html>

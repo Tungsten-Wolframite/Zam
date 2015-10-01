@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+{%load staticfiles%}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DealMonk</title>
+
+    <link href="{%static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{%static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+
+    <link href="{%static 'assets/css/animate.css'%}" rel="stylesheet">
+    <link href="{%static 'assets/css/style.css'%}" rel="stylesheet">
+    <link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+
+</head>
+
+<body class="gray-bg">
+    <div class="loginColumns animated fadeInDown" style="min-height: 95vh;top: 25vh; position: relative; padding: 0px 20px 20px;">
+        <div class="row">
+         	<div class="col-md-6">
+            	<h2 class="font-bold" style="width: 267px;height: 0px;">Welcome to DealMonk</h2>
+						<p>
+							<div>
+                			<img alt="image" class="img-circle" src="{%static 'assets/img/dm_logo.png'%}" style="height: 159px; width: 256px;">
+			           </div>
+						</p>
+                	<p>
+                    <strong>Real-time deals at the coolest places around you</strong>
+                	</p>
+            </div>
+            <div class="col-md-6">
+                <div class="ibox-content">
+                    <form class="m-t" role="form" action="/adlogin/" method="post">
+                     	<div class="row">
+									<div class="form-group">
+										{{ errors.error_message }}	{{error_msg}}			
+									</div>
+				   				<div class="form-group">
+                           	<input type="email" class="form-control" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" placeholder="Email Address" name="username" required="">
+                        	</div>
+                        	<div class="form-group">
+                            	<input type="password" class="form-control" placeholder="Password" name="password" required="">
+                        	</div> 
+                        	<button type="submit" class="btn btn-primary block full-width m-b">Login</button>                                       
+                        		<a href="/forgot-password/">
+                            		<small>Forgot password?</small>
+                        		</a>                       
+                    	</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+          <div class="col-md-12 text-center" style="bottom: 0px;">        
+                Copyright DealMonk &nbsp; &nbsp;
+               <small>© 2015-2016</small>
+            </div>
+     </div>   
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DealMonk | Promotions</title>
+
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+
+    <link href="{% static 'css/plugins/iCheck/custom.css'%}" rel="stylesheet">
+
+    <link href="{% static 'css/plugins/fullcalendar/fullcalendar.css'%}" rel="stylesheet">
+    <link href="{% static 'css/plugins/fullcalendar/fullcalendar.print.css'%}" rel='stylesheet' media='print'> 
+
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+    <link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 35%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>  
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 35%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>
+  	
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> 
+                    
+                      <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="background: rgba(2, 1, 1, 0) none repeat scroll 0% 0%;">
+                    			<span>
+                            	<img alt="image" id='user_img' class="img-circle" src="{{user_img}}" width=48 height=48/>
+                            </span>
+                     </a>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <label class="font-bold" style="text-transform:capitalize;">{{request.session.full_name}}</label>
+                             </span></span> </a>
+                        <!-- <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/sign-out-admin/">Logout</a></li>
+                        </ul> -->
+                    </div>
+                    <div class="logo-element">
+                        DM+
+                    </div>
+                </li>
+                <li>
+                    <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+                </li>
+                <li>
+                    <a href="/load-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+                </li>
+                <li>
+                    <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+                </li>
+                
+                <li>
+                    <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+                </li>
+                
+                	<li class="active">
+                  	  <a href="/open-change-password/"><i class="fa fa-cogs"></i> <span class="nav-label">Account Settings</span></a>
+						</li>            
+
+        </div>
+</nav>
+
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+       </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <span class="m-r-sm text-muted welcome-message" style="text-transform:capitalize;">Welcome {{ request.session.full_name}}</span>
+            </li>
+                     
+            <li>
+                <a href="/sign-out-admin/">
+                    <i class="fa fa-sign-out"></i> Log out
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Change Password</h2>
+        </div>       
+</div>
+
+
+          	<div class="modal fade" id="upload_image" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">DealMonk</h4>
+        								</div>        								   
+        							<!-- 	<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data" action="/upload-admin-image/">  --> 	
+        									<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Select Image.</p>
+							                       <!--  <input name="image_load" type="file" class="form-control" id="exercisevideo"  accept=accept=".png, .jpg, .jpeg" /> -->
+															 <input type="file" id='admin_image' name="pic" accept=".png, .jpg, .jpeg">	
+															 <input type="hidden" id="login_user_name" name="user_name" value="{{request.session.login_user}}"></input>	
+															 				                    
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_upload"  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_ok_upload" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>      								 
+      						</div>
+  					</div>  			 
+
+
+
+<div class="passwordBox animated fadeInDown">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ibox-content">
+                                      
+                    <div class="row">
+                        <div class="col-lg-12">                       
+                            <form class="m-t" role="form" action="/change-password/" method="post">                                
+                                 <div class="form-group">
+                    						<input type="text" id="search_txt" name="search_txt" class="form-control" name="search_txt" placeholder="Enter Text" required="">
+                						</div>                				
+                            </form>
+                        </div> 
+                    </div>
+							<div class="row">
+                        <div class="col-lg-12">                       
+                            <ul id="search_result"></ul>
+                        </div> 
+                    </div>                    
+                    
+                </div>
+            </div>
+        </div>                
+    </div>
+
+
+<div class="footer">
+    <div>
+        <strong>Copyright</strong> DealMonk &copy; 2015-2016
+    </div>
+</div>
+
+</div>
+</div>
+
+
+
+<!-- Mainly scripts -->
+ <script src="{% static 'js/plugins/fullcalendar/moment.min.js'%}"></script> 
+<script src="{% static 'js/plugins/fullcalendar/moment.js'%}"></script> 
+<script src="{% static 'js/jquery-2.1.1.js'%}"></script>
+<script src="{% static 'js/bootstrap.min.js'%}"></script>
+<script src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js'%}"></script>
+<script src="{% static 'js/plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+<script src="{% static 'js/main.js'%}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'js/inspinia.js'%}"></script>
+<script src="{% static 'js/plugins/pace/pace.min.js'%}"></script>
+<script src='jquery/jquery-1.9.1.min.js'></script>
+<script src="{% static 'js/jquery-ui-1.10.2.custom.min.js'%}"></script>
+
+<!-- jQuery UI custom -->
+<script src="{% static 'js/jquery-ui.custom.min.js'%}"></script>
+
+<!-- iCheck -->
+<script src="{% static 'js/plugins/iCheck/icheck.min.js'%}"></script>
+
+<!-- Full Calendar -->
+<!--  <script src="{% static 'js/plugins/fullcalendar/fullcalendar.min.js'%}"></script>  -->
+ <script src="{% static 'js/plugins/fullcalendar/fullcalendar.js'%}"></script> 
+
+<script>
+
+  
+$(document).ready(function() {   
+	$('#search_txt').keyup(function() {
+ 		//$("#search_result").append(" <li>Appended text</li>.");
+ 		
+ 			$.ajax({
+    			type : 'POST',
+    			url : '/get-search-result/',
+    			data : {'search_txt':$('#search_txt').val()},    			
+    			success: function(response) {
+    				console.log(response);
+    				$("#search_result").html('');
+        			if(response.success=='true'){
+        				for (i=0;i<response.list.length;i++){
+        				//console.log(response.list[i].name);
+        				$("#search_result").append("<li>"+"<B>"+response.list[i].name+"</B>"+
+        														"<br/>"+response.list[i].address+
+        														"<br/>"+response.list[i].area+
+        														"<br/>"+response.list[i].city+
+        													"</li>");
+        				}
+        			}
+        			if(response.success=='false'){
+        				alert('error!')
+        			}
+        			if(response.success=='error'){
+        				alert('error!')
+        			}
+    			},
+    			error: function(response){
+            console.log(response);
+           			alert("ajax Error!");
+           }, 
+		});
+ 		
+ 		
+	});
+});
+</script>
+
+<script type="text/javascript">
+$('#user_img').click(function(){
+	$('#upload_image').modal('show');
+});
+
+
+
+</script>
+
+</body>
+
+</html>

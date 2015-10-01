@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DealMonk | Promotions</title>
+
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.css'%}" rel="stylesheet">
+
+    <link href="{% static 'css/plugins/iCheck/custom.css'%}" rel="stylesheet">
+
+    <link href="{% static 'css/plugins/fullcalendar/fullcalendar.css'%}" rel="stylesheet">
+    <link href="{% static 'css/plugins/fullcalendar/fullcalendar.print.css'%}" rel='stylesheet' media='print'> 
+
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+<link rel="icon" 
+      type="image/png" 
+      href="{%static 'assets/img/imgo.jpg'%}" >
+
+<style type="text/css">
+
+.modal-dialog1 {
+  width: 35%;
+  margin: 30px auto;
+}
+
+.modal-dialog {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.fa-s{
+	float: right;
+	padding: 1%;
+}
+.modal {
+    top: 20%;
+}
+</style>    	
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> 
+                    <span>
+                     	<a data-toggle="dropdown" class="dropdown-toggle" href="#" style="background: rgba(2, 1, 1, 0) none repeat scroll 0% 0%;">
+                            <img alt="image" id='user_img' class="img-circle" src="{{user_img}}" width="48" height="48"/>
+								</a>   
+							</span>
+							
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <label class="font-bold" style="text-transform:capitalize;">{{ request.session.full_name }}</label>
+                             </span></span> </a>
+                        <!-- <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/sign-out-admin/">Logout</a></li>
+                        </ul> -->
+                    </div>
+                    <div class="logo-element">
+                        DM
+                    </div>
+                </li>
+                <li>
+                    <a href="/dashboard/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span><span class="label label-primary pull-right">V.1</span></a>
+                </li>
+                <li>
+                    <a href="/load-upcoming-guests/"><i class="fa fa-calendar"></i> <span class="nav-label">Upcoming Guests</span></a>
+                </li>
+                <li class="active">
+                    <a href="/promotions/"><i class="fa fa-diamond"></i> <span class="nav-label">Promotions</span> </a>
+                </li>
+                
+                <li>
+                    <a href="/my-restaurantform/"><i class="fa fa-cutlery"></i> <span class="nav-label">My Restaurant </span></a>
+                </li>
+                <li>
+                    <a href="/restaurant_menu/"><i class="fa fa-book"></i> <span class="nav-label">Menu</span></a>
+                </li>
+                <li>
+                    <a href="/open-change-password/"><i class="fa fa-cogs"></i> <span class="nav-label">Account Settings</span></a>
+                </li>
+                <!-- <li>
+                    <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Contact US</span></a>
+                </li> -->
+                <!-- <li>
+                    <a href="#"><i class="fa fa-usd"></i> <span class="nav-label">Payment</span> </a>
+                </li>
+                 <li>
+                    <a href="#"><i class="fa fa-envelope-o"></i> <span class="nav-label">Email</span></a>
+                </li> 
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">Promote @DM</span></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Redeem</a>
+                </li> -->
+
+        </div>
+</nav>
+
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+       </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <span class="m-r-sm text-muted welcome-message" style="text-transform:capitalize;">Welcome {{ request.session.full_name}}</span>
+            </li>
+                     
+            <li>
+                <a href="/sign-out-admin/">
+                    <i class="fa fa-sign-out"></i> Log out
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Promotions</h2>
+        </div>
+        <div class="col-lg-4" style="padding-top:20px;text-align:right;">
+         <a id="add_offer" type="submit" class="btn btn-primary btn-sm" style="margin-left:95px">Save</a>
+<a href="/dashboard/" class="btn btn-primary btn-sm">Cancel</a>   
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInDown">
+        <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Add Offers</h5>
+                           <!--  <div class="ibox-tools">
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div> -->
+                        </div>
+                        <div class="ibox-content">
+                                            
+                 
+						<br>
+                     
+                     <input type="hidden" id="rest_id" value="{{restaurant.restaurant_id}}" /> 
+                     <input id="offer_name" placeholder="Offer Details" class="form-control input-sm"/> 
+                     
+                     <br>      
+              <div class="form-group">                                    
+             <a id="offer_submit" type="submit" class="btn btn-primary btn-sm"  style="width:100%;">Add</a>                               
+              </div>
+                            
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Offers Available to add to the calendar</h5>
+                    <!-- <div class="ibox-tools">
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div> -->
+                </div>
+                <div class="ibox-content">
+                    <div id='external-events'>
+                        <p>Add discounts into calendar.</p>
+                         {% for offer in offerlist %}
+	                     <div class='external-event navy-bg offer'>{{offer.restaurant_offer_detail}}
+	                    <!--  <span onclick="delete_offer({{offer.restaurant_offer_id}}, this)" class="close-link"> -->
+	                     <span onclick="delete_offer({{offer.restaurant_offer_id}}, this)">
+                            <i class="fa fa-s fa-times"></i>
+                        </span>
+	                     </div>
+	                     {% endfor %} 
+	                     
+                        <!-- <p class="m-t">
+                            <input type='checkbox' id='drop-remove' class="i-checks" /> <label for='drop-remove'>remove after drop</label>
+                        </p> -->
+                    </div>
+                </div>        
+            </div>
+                </div>
+        
+        
+        <div class="col-lg-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding: 9px 11px 0px;">
+                <div class="row">
+                <div class="col-sm-3">
+       			<h5>Discount Calendar </h5>
+       			</div>
+       			
+       			<div class="col-sm-5">
+       			 <button class="btn btn-white btn-sm" id="btn_copy_calendar_from_previous_week" type="button" ><i class="fa fa-chevron-left"></i>&nbsp;&nbsp;Copy calendar from previous week</button> 
+       			</div>
+       			<div class="col-sm-1">
+       			<button class="btn btn-white btn-sm" id="btn_copy_calendar_next_week" type="button">Copy calendar to next week&nbsp;&nbsp;<i class="fa fa-chevron-right"></i></button>
+       			</div>
+       			<div class="col-sm-2">
+       			<!-- <div class="ibox-tools">
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div> -->
+                    </div>
+                  </div>  
+                </div>
+                <div class="ibox-content">
+                    <div id="calendar"></div>
+					
+                </div>
+            </div>            
+            <input type="hidden" id="d_opentime" value="{{d_opentime}}"></input>
+            <input type="hidden" id="d_closetime" value="{{d_closetime}}"></input>
+            <input type="hidden" id="e_opentime" value="{{e_opentime}}"></input>
+            <input type="hidden" id="e_closetime" value="{{e_closetime}}"></input>
+            <input type="hidden" id="total_offers" value="{{total_offer}}"></input>            
+        </div>
+    </div>
+</div>
+
+<!--------------------------------------Models-------------------------------------------------->
+
+
+                   
+	<div class="modal fade" id="testMod" role="dialog">
+		<div class="modal-dialog1">    
+			<div class="modal-content">
+        		<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title">Select your offer</h4>
+        		</div>
+        		<div class="modal-body">        											        								
+          		<div class="ibox-content">
+						<div id='external-events'>
+							<p>Add discounts into calendar.</p>
+							<input type="hidden" value="{{restaurant.restaurant_id}}" />															
+							<select id="offerModal" style="width:320px" class="form-control">							                        
+								{% for offer in offerlist %}
+									<option value="{{offer.restaurant_offer_id}}">{{offer.restaurant_offer_detail}}</option>
+							 	{% endfor %}
+							</select>                     
+						</div>
+					</div>  
+
+				</div>
+        		<div class="modal-footer">
+         		<button id="offer_insert" type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+         		<button id="offer_cancel" type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        		</div>
+      		</div>      
+    		</div>
+  		</div>
+
+
+
+
+<!--  pramotion delete conformation -->
+                   
+          	<div class="modal fade" id="delete_conformation" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">Delete Conformation</h4>
+        								</div>
+        								<div class="modal-body">        											        								
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Offer will deleted permanently. Do you want to delete it?</p>
+							                    </div>
+							                </div>  
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_no "  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_yes" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+      								</div>
+      						</div>
+  					</div>
+
+
+
+                      
+          	<div class="modal fade" id="offer_delete_conformation" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">Delete Conformation</h4>
+        								</div>
+        								<div class="modal-body">        											        								
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p>Are you sure you want to delete this offer from offer list?</p>
+							                    </div>
+							                </div>  
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_no_offer "  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_yes_offer" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+      								</div>
+      						</div>
+  					</div>
+  			 </form> 
+
+
+
+
+  
+			                
+          	<div class="modal fade" id="upload_image" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 class="modal-title">DealMonk</h4>
+        								</div>
+        								   
+        							<!-- 	<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data" action="/upload-admin-image/">  --> 	
+        									<form name="imageForm" id="uploadImageForm" method="post" enctype="multipart/form-data">  										        								
+											<div class="modal-body">           									
+          									<div class="ibox-content">
+							                    <div id='external-events'>
+							                        <p id="delete_conformation_msg">Select Image.</p>
+							                       <!--  <input name="image_load" type="file" class="form-control" id="exercisevideo"  accept=accept=".png, .jpg, .jpeg" /> -->
+															 <input type="file" id='admin_image' name="pic" accept=".png, .jpg, .jpeg">	
+															 <input type="hidden" id="login_user_name" name="user_name" value="{{request.session.login_user}}"></input>	
+															 				                    
+							                    </div>
+							                </div>							             
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_cancel_upload"  data-dismiss="modal" class="btn btn-primary">No</button>
+        											  <button type="button" id="btn_ok_upload" data-dismiss="modal" class="btn btn-default" >Yes</button>
+        										</div>
+        							</form>
+      								</div>
+      								 
+      						</div>
+  					</div>
+  			 
+
+
+<!--  Error Msg -->
+
+<div class="ibox-content">      
+			<form>                    
+          	<div class="modal fade" id="error_msg" role="dialog">
+    						<div class="modal-dialog1">
+          					<!-- Modal content-->	
+      								<div class="modal-content">
+        								<div class="modal-header">
+								      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          								<h4 id="hd_id" class="modal-title">Error Message</h4>
+        								</div>
+        								<div class="modal-body">        											        								
+          									<div class="ibox-content">
+							                    <div id='external-events'>							                    			
+							                        <p id=txt_error_msg></p>
+							                    </div>
+							                </div>  
+        								</div>
+        									  <div class="modal-footer">  
+        										     <button type="button" id="btn_Ok" class="btn btn-default" data-dismiss="modal" >OK</button>
+        										</div>
+      								</div>
+      						</div>
+  					</div>
+  			 </form> 
+</div>
+
+
+<div class="footer">
+    <!-- <div class="pull-right">
+        10GB of <strong>250GB</strong> Free.
+    </div> -->
+    <div>
+     <input id="test_box" value="value"></input>
+        <strong>Copyright</strong> DealMonk &copy; 2015-2016
+    </div>
+</div>
+
+</div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'js/plugins/fullcalendar/moment.min.js'%}"></script> 
+<script src="{% static 'js/plugins/fullcalendar/moment.js'%}"></script> 
+<script src="{% static 'js/jquery-2.1.1.js'%}"></script>
+<script src="{% static 'js/bootstrap.min.js'%}"></script>
+<script src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js'%}"></script>
+<script src="{% static 'js/plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+<script src="{% static 'js/main.js'%}"></script>
+<script src="{% static 'js/my-own-date-format.js'%}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'js/inspinia.js'%}"></script>
+<script src="{% static 'js/plugins/pace/pace.min.js'%}"></script><script src='jquery/jquery-1.9.1.min.js'></script>
+<script src="{% static 'js/jquery-ui-1.10.2.custom.min.js'%}"></script>
+<!-- jQuery UI custom -->
+<script src="{% static 'js/jquery-ui.custom.min.js'%}"></script>
+<!-- iCheck -->
+<script src="{% static 'js/plugins/iCheck/icheck.min.js'%}"></script>
+<!-- Full Calendar -->
+<!--  <script src="{% static 'js/plugins/fullcalendar/fullcalendar.min.js'%}"></script>  -->
+ <script src="{% static 'js/plugins/fullcalendar/fullcalendar.js'%}"></script> 
+ 
+
+
+
+<script>
+
+var system_date=new Date();
+$('#test_box').val(system_date);
+var k=0;
+var l=1000;
+var offer_id_delete=0;
+var gstart,gend;
+var offers_list=[];
+var maxDate='2015-09-07T00:00:00.000Z';
+var check_render_status=true;
+
+var endDate = new Date();
+endDate.setMonth(endDate.getMonth() + 6);
+
+var startDate = new Date();
+startDate.setMonth(startDate.getMonth() - 1);
+
+/*---------------check date for past event--------------------*/
+var rd_end_date=new Date();
+rd_end_date.setDate(rd_end_date.getDate() - 7);
+console.log(rd_end_date);
+
+var delete_offer_id=0;
+var offer_div_to_remove;
+
+
+
+var busi_openTime_d_row=$('#d_opentime').val(); 
+var busi_closeTime_d_row= check_twintyfour_hour($('#d_closetime').val());
+var busi_openTime_e_row=  check_evening_sift($('#e_opentime').val(),$('#d_opentime').val());
+var busi_closeTime_e_row= check_evening_sift(check_twintyfour_hour($('#e_closetime').val()),busi_closeTime_d_row);
+
+var busi_openTime_d=busi_openTime_d_row; 
+var busi_closeTime_d=check_close_time(busi_closeTime_d_row,busi_openTime_e_row,busi_closeTime_d_row,busi_closeTime_e_row);
+var busi_openTime_e= check_close_time(busi_closeTime_d_row,busi_openTime_e_row,busi_openTime_e_row,busi_openTime_d);
+var busi_closeTime_e= busi_closeTime_e_row;
+
+
+function check_twintyfour_hour(hour){
+if(($('#d_opentime').val()==$('#d_closetime').val())&&($('#e_opentime').val()==$('#e_closetime').val())
+  && ($('#d_opentime').val()==$('#e_closetime').val()))
+	return '23:59:00';
+else
+	return hour;
+}
+
+function check_evening_sift(check_time,return_time){
+if(($('#e_opentime').val()==$('#e_closetime').val()) && ($('#e_opentime').val()=="00:00:00"))
+		return return_time;
+	else
+		return check_time;
+}
+
+function check_close_time(d_c_hour,e_o_hour,check_time,return_time){
+	if(d_c_hour==e_o_hour)
+		return return_time; 
+   else
+      return check_time;
+}
+
+
+$('#user_img').click(function(){
+	$('#upload_image').modal('show');
+});
+
+$('#btn_ok_upload').click(function(){
+
+  var input = document.getElementById("admin_image");  	  
+    file = input.files[0];
+	 var formData= new FormData();  
+  	 if(file != undefined){ 	 
+    	if(!!file.type.match(/image.*/)){
+      	formData.append("image", file);    
+      	formData.append("user_name",$('#login_user_name').val());      	
+      	$.ajax({
+    			type : 'POST',
+    			url : '/upload-admin-image/',
+    			data : formData,
+    			cache: false,
+    			processData: false,
+    			contentType: false,
+    			success: function(response) {
+    				console.log(response);
+        			if(response.success=='true'){
+        				$('#user_img').attr('src',response.image);
+        			}
+        			if(response.success=='error'){
+        				alert('error!')
+        			}
+    			},
+    			error: function(response){
+            console.log(response);
+           			alert("ajax Error!");
+           }, 
+		});
+    }else{
+      alert('Not a valid image!');
+    }
+  }else{
+    //alert('Input something!');
+  } 
+});
+
+$('#offer_submit').click(function () {
+var offer=$('#offer_name').val();
+	if(offer==""||offer.trim()=="")
+		return false;
+		
+$.ajax({ 				          
+            type : 'POST',
+            url : '/insert_offer/',
+           data : {'rest_id': {{restaurant.restaurant_id}},'offer_name':offer},                              
+ 				success: function(response) { 	
+ 				console.log(response.success);			
+             if(response.success==='true') {        
+             	$('#external-events').append("<div value="+response.offer+" class='external-event navy-bg offer'>"+response.offer+"<span onclick=\"delete_offer("+response.offer_id+",this)\"><i class=\"fa fa-s fa-times\"></i></span></div>");
+ 					$('#offer_name').val('');
+ 					$('#offerModal').html('');
+					 $.each(response.r_offer_list, function(index, item) {
+				      		$('#offerModal').append('<option value="' +item.offer_id + '">'+item.offer_details+'</option>');								
+						}); 	
+ 					 $('#total_offers').val(response.r_offer_count);          	
+             	//location.reload();                                        
+             } else if(response.success === 'error') {
+                 alert("Fail!");
+              }
+           },
+           error: function(response){
+           console.log(response);
+           			alert("Error!");
+           },        
+
+        });   
+});
+
+$('#add_offer').click(function () {
+console.log('------console.log---------');
+console.log(offers_list);
+if(offers_list.length>=1){
+        $.ajax({ 				          
+            type : 'POST',
+            url : '/save-offer-details/',
+            data : {'offers_list':JSON.stringify(offers_list),'rest_id':{{restaurant.restaurant_id}}},                              
+ 				success: function(response) {
+ 				console.log(response);
+ 				if(response.success==='exist') {
+					alert('Offer Already Exist!'); 				
+ 				}				
+             if(response.success==='true') {             
+            $('#hd_id').text('DealMonk');
+				$('#txt_error_msg').text('Offer Details have been saved successfully!');
+				$('#error_msg').modal('show');
+				
+				$('#calendar').fullCalendar('removeEvents');
+            $('#calendar').fullCalendar('refetchEvents');
+            offers_list=[]
+               
+             } else if(response.status === 'error') {
+                 alert("Fail!");
+              }else if(response.success === 'time_slot_error') {              
+              	   $('#hd_id').text('DealMonk');
+						$('#txt_error_msg').text('Only one offer can exist at one time!');
+						$('#error_msg').modal('show');             	
+              }
+           },
+           error:function(){
+           		alert("Error");	
+           },        
+
+        });     
+}else{
+    $('#hd_id').text('DealMonk');
+	 $('#txt_error_msg').text('Please add new offer in calendar!');
+	 $('#error_msg').modal('show');
+ }
+});
+
+function delete_offer(offer_id ,div_to_remove){
+	delete_offer_id=offer_id;
+	offer_div_to_remove=div_to_remove;
+	console.log(delete_offer_id);	
+	$('#offer_delete_conformation').modal('show');
+}
+
+$('#btn_yes_offer').click(function() {            	
+ 	$.ajax({ 				          
+    	type : 'POST',
+      url : '/delete_offer/',
+      data : {'offer_id': delete_offer_id,'rest_id':{{restaurant.restaurant_id}}},                              
+ 		success: function(response) { 				
+      	if(response.success==='true') {
+      	   var content = $(offer_div_to_remove).closest('div.external-event');
+				content.remove();  
+				$('#offerModal').html('');
+				$.each(response.r_offer_list, function(index, item) {
+				      		$('#offerModal').append('<option value="' +item.offer_id + '">'+item.offer_details+'</option>');								
+						}); 	
+ 				$('#total_offers').val(response.r_offer_count); 
+         }
+      },	
+      error: function(response){
+      	alert("Error!");
+      },
+   });  
+  // location.reload(); 
+});
+
+function closeit(id){	
+	$('#calendar').fullCalendar('removeEvents', id);	
+}
+
+
+	function convertLocalDateToUTCDate(date, toUTC) {
+	    date = new Date(date);
+	    //Local time converted to UTC
+	   // console.log("Time: " + date);
+	    var localOffset = date.getTimezoneOffset() * 60000;
+	    var localTime = date.getTime();
+	    if (toUTC) {
+	        date = localTime + localOffset;
+	    } else {
+	        date = localTime - localOffset;
+	    }
+	    date = new Date(date);
+	    //console.log("Converted time: " + date);
+	    return date;
+	}
+	
+
+  
+$(document).ready(function() {   
+    
+    
+    
+/*-------------------For copy events to next week-----------------------*/  
+$('#btn_copy_calendar_next_week').click(function () { 
+  	all_events = $('#calendar').fullCalendar('clientEvents');
+  	var current_view = $('#calendar').fullCalendar('getView');
+  	
+  	var start_date=current_view.start;
+  	var end_date=current_view.end;  	
+  	
+console.log(start_date);
+console.log(end_date);  	
+  	
+	var event_obj = new Object();
+	var check_current_week_event=false;	    
+    
+	all_events.forEach(function(evnt) {
+		if (evnt['start'].format() >= start_date.format() && evnt['end'].format() <= end_date.format()){
+			--l;		
+			check_current_week_event=true;
+		   var D1=evnt['start']._d;
+			var D2=evnt['end']._d;			
+			var X1=D1.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
+			var X2=D2.format("yyyy-mm-dd'T'HH:MM:ss'Z'");			
+			var XD1=new Date(X1);
+			var XD2=new Date(X2);						
+			XD1.setUTCDate(XD1.getUTCDate() + 7);
+			XD2.setUTCDate(XD2.getUTCDate() + 7);		
+	
+			var str_d1 = convertLocalDateToUTCDate(XD1,true);
+			var str_d2 =convertLocalDateToUTCDate(XD2,true);			
+
+			var mb_test1 = convertLocalDateToUTCDate(str_d1,true);
+			var mb_test2 = convertLocalDateToUTCDate(str_d2,true);
+			
+			event_obj.id='vkm_test'+l;
+			event_obj.title=evnt['title'];
+			event_obj.start= mb_test1.format("yyyy-mm-dd'T'HH:MM:ss'Z'");			
+	      event_obj.end= mb_test2.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
+			event_obj.allDay = false;
+			event_obj.offer_id=evnt['offer_id'];
+			console.log('=========================');
+			
+			customData = {
+                		   'event_id':"chunked-test"+l,  
+                		   'offer_id':event_obj.offer_id,         			
+								'title': event_obj.title,
+								'start':event_obj.start,
+								'end':event_obj.end,
+							   'rest_id':{{restaurant.restaurant_id}}
+							};		
+			
+			console.log(event_obj.start);
+			console.log(event_obj.end);			
+       // $('#calendar').fullCalendar( 'renderEvent',event_obj);
+		  $("#calendar").fullCalendar( "removeEvents", "chunked-helper");
+        $("#calendar").fullCalendar( "addEventSource",chunk_test(event_obj,'test'+l));
+        offers_list.push(customData);  
+		 
+      }
+	}); 
+	if(check_current_week_event==true){
+      $('#calendar').fullCalendar('next');}
+   else{
+   	 $('#hd_id').text('DealMonk');
+		 $('#txt_error_msg').text('There is Nothing to Copy in Next Week!');
+		 $('#error_msg').modal('show');	
+   }  	
+});
+
+
+
+/*-------------------For copy events from previous week-----------------------*/  
+$('#btn_copy_calendar_from_previous_week').click(function () { 
+  	all_events = $('#calendar').fullCalendar('clientEvents');
+  	var current_view = $('#calendar').fullCalendar('getView');
+  	
+  	var start_date=current_view.start._d;
+  	var end_date=current_view.end._d;  	
+  	
+  	console.log(start_date);
+  	console.log(end_date);
+  
+	var start_date_str=start_date.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
+  	var end_date_str=end_date.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
+  	
+  	var start_week=new Date(start_date_str);
+  	var end_week=new Date(end_date_str);
+
+	start_week.setUTCDate(start_week.getUTCDate() - 7);
+	end_week.setUTCDate(end_week.getUTCDate() - 7);
+  	
+  	var start_week_str=start_week.format("yyyy-mm-dd'T'HH:MM:ss'Z'").split('T');
+  	var end_week_str=end_week.format("yyyy-mm-dd'T'HH:MM:ss'Z'").split('T');
+  
+	
+	var event_obj = new Object();
+	var check_current_week_event=false;	    
+    
+	all_events.forEach(function(evnt) {	
+	console.log(start_date.format());
+		if (evnt['start'].format() >= start_week_str[0] && evnt['end'].format() <= end_week_str[0]){
+			--l;		
+			check_current_week_event=true;
+		   var D1=evnt['start']._d;
+			var D2=evnt['end']._d;			
+			var X1=D1.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
+			var X2=D2.format("yyyy-mm-dd'T'HH:MM:ss'Z'");			
+			var XD1=new Date(X1);
+			var XD2=new Date(X2);						
+			XD1.setUTCDate(XD1.getUTCDate() + 7);
+			XD2.setUTCDate(XD2.getUTCDate() + 7);		
+	
+			var str_d1 = convertLocalDateToUTCDate(XD1,true);
+			var str_d2 =convertLocalDateToUTCDate(XD2,true);			
+
+			var mb_test1 = convertLocalDateToUTCDate(str_d1,true);
+			var mb_test2 = convertLocalDateToUTCDate(str_d2,true);
+			
+			event_obj.id='vkm_test'+l;
+			event_obj.title=evnt['title'];
+			event_obj.start= mb_test1.format("yyyy-mm-dd'T'HH:MM:ss'Z'");			
+	      event_obj.end= mb_test2.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
+			event_obj.allDay = false;
+			event_obj.offer_id=evnt['offer_id'];
+			console.log('=========================');
+			
+			customData = {
+                		   'event_id':"chunked-test"+l,  
+                		   'offer_id':event_obj.offer_id,         			
+								'title': event_obj.title,
+								'start':event_obj.start,
+								'end':event_obj.end,
+							   'rest_id':{{restaurant.restaurant_id}}
+							};		
+			
+			console.log(event_obj.start);
+			console.log(event_obj.end);			
+       // $('#calendar').fullCalendar( 'renderEvent',event_obj);
+		  $("#calendar").fullCalendar( "removeEvents", "chunked-helper");
+        $("#calendar").fullCalendar( "addEventSource",chunk_test(event_obj,'test'+l*7));
+        offers_list.push(customData);  
+		 
+      }
+	}); 
+	if(check_current_week_event==true){
+     // $('#calendar').fullCalendar('prev');
+     }
+   else{
+   	 $('#hd_id').text('DealMonk');
+		 $('#txt_error_msg').text('There is Nothing to Copy from previous Week!');
+		 $('#error_msg').modal('show');	
+   }  	
+});
+
+
+
+
+
+
+
+$('.i-checks').iCheck({
+           checkboxClass: 'icheckbox_square-green',
+           radioClass: 'iradio_square-green',
+});
+
+/* initialize the external events
+-----------------------------------------------------------------*/
+$('#external-events div.external-event').each(function() {
+            // store data so the calendar knows to render an event upon drop
+            $(this).data('event', {
+                title: $.trim($(this).text()), // use the element's text as the event title
+                stick: true // maintain when user navigates (see docs on the renderEvent method)
+            });
+				
+            // make the event draggable using jQuery UI
+            $(this).draggable({
+                zIndex: 1111999,
+                revert: true,      // will cause the event to go back to its
+                revertDuration: 0  //  original position after the drag
+            });
+
+        });
+/* initialize the calendar
+-----------------------------------------------------------------*/
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+// This is for selecting multiple day events.
+			
+	var chunk = function (event,type) {	
+	// function chunk(event,type) {
+		   var chunked = [];
+			if(event.end.format('HHmm')=="0000"){		
+				event.end._d.setMinutes(event.end._d.getMinutes()-1);		
+			}			
+		   if ((event.start.format('HHmm') > event.end.format('HHmm'))&&(event.end.format('HHmm')!="0000")) {        	    		
+		        return false; //Can't chunk, starttime > endtime
+		   }
+		    
+		    for (var day = event.start.clone(); !day.isAfter(event.end,'day'); day.add(1,'day')) {
+		        chunked.push({		        
+		        		title : event.title,
+		            start:day.clone(),
+		            end:day.clone().hour(event.end.hour()).minute(event.end.minute()),
+		            id:"chunked-"+type, //Used as a flag in the render function
+		            offer_id:event.offer_id
+		        })
+      	      
+		    }
+		    return chunked;
+		};
+		
+		var chunk_test = function (event,type) {		
+		   var chunked = [];	
+		        chunked.push({		        
+		        		title : event.title,
+		            start:event.start,
+		            end:event.end,
+		            id:"chunked-"+type,
+		            offer_id:event.offer_id
+		        })
+		    return chunked;
+		};
+		
+		
+/* Takes an event and renders it chunked. Also remove the previous chunked-helper.
+	            Runs after a timeout and only once.	*/	
+
+var renderChunkedHelper = (function(){
+    var id = 0;
+    return function(event){  
+        window.clearTimeout(id);
+        id = window.setTimeout(function(){
+            var chunked = chunk(event,"helper");
+            eventToChunk = null;
+            $("#calendar").fullCalendar( "removeEvents", "chunked-helper");
+            for(var i = 0; i < chunked.length; i++){
+                $("#calendar").fullCalendar("renderEvent", chunked[i]); //Manually render each chunk
+            }
+        },0); //delay in ms. Could be tweaked for optimal perfomance
+        
+    }
+})();
+		
+  $("#calendar").fullCalendar({
+    	defaultDate: moment(),
+    	defaultView: 'agendaWeek',
+    	header: {
+        left: 'prev',
+        center: 'title',
+        right: 'next'
+    	},
+    	views: {
+    	week: {
+			 columnFormat: 'ddd DD/MM'    	
+    	}
+    	},
+    //selectConstraint: 'businessHours',
+      eventConstraint: 'businessHours',
+    	selectable: true,
+    	selectHelper: true,  
+    	slotEventOverlap:false,
+    	firstDay:1,    	
+    	allDaySlot:false,
+    	editable:false, 
+	 
+	 select: function( start, end, jsEvent, view ){	
+	 		check_system_date=convertUTCDateToLocalDate(rd_end_date);	 		
+	 		 if(get_utc_date(start._d)<get_converted_date(check_system_date)){
+	 		   $('#hd_id').text('DealMonk');
+				$('#txt_error_msg').text('You cannot add an offer in the past!');
+				$('#error_msg').modal('show');	 		
+	 		   $("#calendar").fullCalendar("removeEvents", "chunked-helper");
+    			return false
+   	 	} 
+   	 	
+  		var d_open=Date.parse('07/07/2007 '+ busi_openTime_d);
+    	var d_close=Date.parse('07/07/2007 '+busi_closeTime_d);
+    	var e_open=Date.parse('07/07/2007 '+busi_openTime_e);
+    	var e_close=Date.parse('07/07/2007 '+busi_closeTime_e); 
+	 	var compare_start_date=Date.parse('07/07/2007 '+get_timeBy_date(start._d));
+	 	var compare_end_date=Date.parse('07/07/2007 '+get_timeBy_date(end._d));	 	
+	 
+	 	//alert($('#total_offers').val());
+	 	
+	 	if($('#total_offers').val()<1){		
+ 				$('#hd_id').text('DealMonk');
+				$('#txt_error_msg').text('You haven’t added any offers yet!');
+				$('#error_msg').modal('show');			
+					
+			$("#calendar").fullCalendar("removeEvents", "chunked-helper");			
+			return false	 	
+	 	}
+	 	
+	 
+	 	if(((d_open<= compare_start_date)&&(d_close >= compare_start_date)
+	 	&&(d_open<= compare_end_date)&&(d_close >= compare_end_date))||
+	 	((e_open<= compare_start_date)&&(e_close >= compare_start_date)
+	 	&&(e_open<= compare_end_date)&&(e_close >= compare_end_date))){
+	 			gstart=start;
+				gend=end;
+			   $('#testMod').modal('show');	
+	 	}else{
+				//alert('You can not add offer out of the workorking hours !');				
+				$('#hd_id').text('DealMonk');
+				$('#txt_error_msg').text('You cannot add an offer outside the restaurant operational hours!');
+				$('#error_msg').modal('show');				
+				$("#calendar").fullCalendar("removeEvents", "chunked-helper");
+				return false
+		} 
+ 
+    },
+    eventRender: function (event,element) {  
+       
+        if(event.className[0] === "fc-helper"){ //if it's the drag event
+            renderChunkedHelper(event);
+            return false; //don't actually render the select helper
+        }        
+    },
+ 
+    eventClick: function (calEvent, jsEvent, view) {    
+     
+    check_system_date=convertUTCDateToLocalDate(rd_end_date);
+        console.log(calEvent);
+    
+    	if(get_utc_date(calEvent.start._d)< check_system_date){
+    	console.log('===========');
+    		return false;
+   	 }   
+         	 $.ajax({ 				          
+            			type : 'GET',
+            			url : '/check-offer-schedule-existence/',
+            			data : {'offer_map_id':calEvent._id},                              
+ 							success: function(response) {  
+ 							console.log(response);            				
+             				if(response.status=='exist'){
+             				offer_id_delete=calEvent._id;
+             				$('#delete_conformation_msg').text(response.message);
+             				$('#delete_conformation').modal('show');	
+             				}else{
+             				console.log('<====errpr=vikram chandel=========>')
+                            findAndReplace(calEvent._id);             				
+             				}
+           				},	
+           					error: function(response){
+           					console.log(response);
+           					alert("Error!");
+           					},
+        					}); 	
+	},	
+dayClick: function(date, jsEvent, view) {
+  
+ },
+viewRender: function (view,element) {
+  		
+  	 var end = new Date();
+  	 var start=startDate;
+  		
+	 while(start < rd_end_date) { 
+       	var dt=get_converted_date(start);    
+       	$('.fc-day[data-date="' + dt + '"]').css('background', '#B0C4DE');  
+       	var newDate = start.setDate(start.getDate() + 1);
+       	start = new Date(newDate);       
+  		}      
+     
+         if (view.end > Date.parse(endDate)) {
+         console.log('---------------------------check-------------------------');
+            //$("#calendar .fc-button-next").hide();
+            $(".fc-next-button").prop('disabled', true);            
+            $(".fc-next-button").addClass('fc-state-disabled');  
+            $("#btn_copy_calendar_next_week").prop('disabled', true);            
+            $("#btn_copy_calendar_next_week").addClass('fc-state-disabled');             
+            return false;
+        }
+        else {
+        		$(".fc-next-button").removeClass('fc-state-disabled'); 
+				$(".fc-next-button").prop('disabled', false); 
+				$("#btn_copy_calendar_next_week").removeClass('fc-state-disabled');         
+            $("#btn_copy_calendar_next_week").prop('disabled', false); 
+        }
+
+        if (view.start < Date.parse(startDate)) {
+            $(".fc-prev-button").prop('disabled', true); 
+            $(".fc-prev-button").addClass('fc-state-disabled'); 
+            return false;
+        }
+        else {
+           $(".fc-prev-button").prop('disabled', false); 
+            $(".fc-prev-button").removeClass('fc-state-disabled'); 
+        }
+  },  
+  
+eventSources: [       
+                 {        
+            			 type : 'GET',
+            			 url : '/get-offer-schedule-list/',
+            			 data : {'rest_id':{{restaurant.restaurant_id}}},                              
+ 							 success: function(response) { 
+ 							 console.log(response);	 							
+        				},
+        				  color: 'orange',   // a non-ajax option
+                    textColor: 'black'
+                  },                 
+  			], 
+  		
+ 			businessHours:[ 
+				{
+					start: busi_openTime_d,
+					end: busi_closeTime_d,			
+					dow: [ 1, 2, 3, 4,5,6,0 ]	
+				},	
+				
+				{		
+					start: busi_openTime_e,
+					end: busi_closeTime_e,					
+					dow: [ 1, 2, 3, 4,5,6,0 ]				
+				}	
+								
+			],
+  			
+});
+
+function get_converted_date(date){
+
+	month=(date.getMonth())+1;
+	dt=date.getDate();
+	if(month.toString().length<2)
+		month='0'+month.toString();
+		
+	if(dt.toString().length<2)
+		dt='0'+dt.toString();
+		
+ return date.getFullYear()+'-'+month+'-'+dt;
+}
+
+
+function convertLocalDateToUTCDate(date, toUTC) {
+	    date = new Date(date);
+	    //Local time converted to UTC
+	   // console.log("Time: " + date);
+	    var localOffset = date.getTimezoneOffset() * 60000;
+	    var localTime = date.getTime();
+	    if (toUTC) {
+	        date = localTime + localOffset;
+	    } else {
+	        date = localTime - localOffset;
+	    }
+	    date = new Date(date);
+	    //console.log("Converted time: " + date);
+	    return date;
+}
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+    newDate.setHours(hours - offset);
+    return newDate;   
+}
+
+
+function get_utc_date(date) {
+    
+   month=(date.getUTCMonth())+1;
+	dt=date.getUTCDate();
+	
+	if(month.toString().length<2)
+		month='0'+month.toString();
+		
+	if(dt.toString().length<2)
+		dt='0'+dt.toString();
+		
+ return date.getUTCFullYear()+'-'+month+'-'+dt;;   
+}
+
+
+function get_timeBy_date(aDate){
+	var dateString = '';
+	var h = aDate.getUTCHours();
+   var m = aDate.getUTCMinutes();
+   var s = aDate.getUTCSeconds();
+   
+	if (h < 10) h = '0' + h;
+	if (m < 10) m = '0' + m;
+	if (s < 10) s = '0' + s;
+
+	dateString = h + ':' + m + ':' + s;
+	return dateString;
+}
+
+function findAndReplace(delete_event){
+	for(i=0;i<offers_list.length;i++){ 
+    	if(offers_list[i].event_id==delete_event)
+    	{
+    	console.log('check');
+    	offers_list.splice(i, 1);
+      closeit(delete_event);
+    	}
+ 	}
+}
+ $('#btn_yes').click(function () {	 
+   	 $.ajax({ 				          
+            			type : 'GET',
+            			url : '/delete-offer-sechedule/',
+            			data : {'offer_map_id': offer_id_delete},                              
+ 							success: function(response) { 				
+             				if(response.status=='error'){
+             				alert('Can not delete selected item!')
+             				}
+           				},	
+           					error: function(response){
+           					alert("Error!");
+           					},
+        					}); 
+ 	closeit(offer_id_delete);
+ 	$('#delete_conformation').hide();
+ });
+
+
+ $('#offer_insert').click(function () {			     
+						var v_title=$('#offerModal :selected').text();
+						var v_id=$('#offerModal :selected').val();				
+                 	if (v_title!="")
+						{          
+                		eventData = { 
+                		   event_id:"chunked-event_"+ ++k,  
+                		   offer_id:v_id,         			
+								title: v_title,
+								start:gstart,
+								end:gend,
+								stick: true // maintain when user navigates (see docs on the renderEvent method)
+							};
+							customData = { 
+                		   'event_id':"chunked-event_"+k,  
+                		   'offer_id':v_id,         			
+								'title': v_title,
+								'start':gstart._d,
+								'end':gend._d,
+							   'rest_id':{{restaurant.restaurant_id}}
+							};
+			            $("#calendar").fullCalendar( "removeEvents", "chunked-helper");
+                     $("#calendar").fullCalendar( "addEventSource",chunk(eventData,"event_"+k));
+                     offers_list.push(customData);
+ 	           		}else{
+ 							$("#calendar").fullCalendar("removeEvents", "chunked-helper");
+			        	}
+			     });
+$('#offer_cancel').click(function () {
+		$('#testMod').hide();
+		$("#calendar").fullCalendar("removeEvents", "chunked-helper");
+	}); 
+
+});
+
+</script>
+
+</body>
+
+</html>
